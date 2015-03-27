@@ -1,0 +1,483 @@
+mdc ldlm_cancel
+mdc mds_close
+mdc mds_getattr
+mdc mds_getattr_lock
+mdc mds_getxattr
+mdc mds_readpage
+mdc mds_statfs
+mdc mds_sync
+mdc reqs
+mdc wait
+intel_snb_r2pci TRANSMITS
+intel_snb_r2pci DATA_USED
+intel_snb_r2pci ADDRESS_USED
+intel_snb_r2pci ACKNOWLEDGED_USED
+vm pgpgin mem.vmstat.pgpgin
+vm pgpgout mem.vmstat.pgpgout
+vm pswpin mem.vmstat.pswpin
+vm pswpout mem.vmstat.pswpout
+vm pgalloc_normal mem.vmstat.pgalloc_normal
+vm pgfree mem.vmstat.pgfree
+vm pgactivate mem.vmstat.pgactivate
+vm pgdeactivate mem.vmstat.pgdeactivate
+vm pgfault mem.vmstat.pgfault
+vm pgmajfault mem.vmstat.pgmajfault
+vm pgrefill_normal mem.vmstat.pgrefill_normal
+vm pgsteal_normal mem.vmstat.pgsteal_normal
+vm pgscan_kswapd_normal mem.vmstat.pgscan_kswapd_normal
+vm pgscan_direct_normal mem.vmstat.pgscan_direct_normal
+vm pginodesteal mem.vmstat.pginodesteal
+vm slabs_scanned mem.vmstat.slabs_scanned
+vm kswapd_steal mem.vmstat.kswapd_steal
+vm kswapd_inodesteal mem.vmstat.kswapd_inodesteal
+vm pageoutrun mem.vmstat.pageoutrun
+vm allocstall mem.vmstat.allocstall
+vm pgrotated mem.vmstat.pgrotated
+intel_wtm FIXED_CTR0
+intel_wtm FIXED_CTR1
+intel_wtm FIXED_CTR2
+intel_wtm CTL0
+intel_wtm CTL1
+intel_wtm CTL2
+intel_wtm CTL3
+intel_wtm CTR0
+intel_wtm CTR1
+intel_wtm CTR2
+intel_wtm CTR3
+ib excessive_buffer_overrun_errors
+ib link_downed
+ib link_error_recovery
+ib local_link_integrity_errors
+ib port_rcv_constraint_errors
+ib port_rcv_data
+ib port_rcv_errors
+ib port_rcv_packets
+ib port_rcv_remote_physical_errors
+ib port_rcv_switch_relay_errors
+ib port_xmit_constraint_errors
+ib port_xmit_data
+ib port_xmit_discards
+ib port_xmit_packets
+ib port_xmit_wait
+ib symbol_error
+ib VL15_dropped
+osc read_bytes
+osc write_bytes
+osc ost_destroy
+osc ost_punch
+osc ost_read
+osc ost_setattr
+osc ost_statfs
+osc ost_write
+osc reqs
+osc wait
+ib_sw rx_bytes infiniband.port.switch.in.bytes
+ib_sw rx_packets infiniband.port.switch.in.packets
+ib_sw tx_bytes infiniband.port.switch.out.bytes
+ib_sw tx_packets infiniband.port.switch.out.packets
+ps ctxt
+ps processes
+ps load_1 kernel.all.load
+ps load_5 kernel.all.load
+ps load_15 kernel.all.load
+ps nr_running
+ps nr_threads
+intel_snb_imc CAS_READS
+intel_snb_imc CAS_WRITES
+intel_snb_imc ACT_COUNT
+intel_snb_imc PRE_COUNT_MISS
+intel_snb_imc CYCLES
+amd64_sock DRAM
+amd64_sock HT0
+amd64_sock HT1
+amd64_sock HT2
+amd64_core USER
+amd64_core DCSF
+amd64_core SSE_FLOPS
+llite read_bytes
+llite write_bytes
+llite direct_read
+llite direct_write
+llite dirty_pages_hits
+llite dirty_pages_misses
+llite ioctl
+llite open
+llite close
+llite mmap
+llite seek
+llite fsync
+llite setattr
+llite truncate
+llite flock
+llite getattr
+llite statfs
+llite alloc_inode
+llite setxattr
+llite getxattr
+llite listxattr
+llite removexattr
+llite inode_permission
+llite readdir
+llite create
+llite lookup
+llite link
+llite unlink
+llite symlink
+llite mkdir
+llite rmdir
+llite mknod
+llite rename
+net collisions network.interface.collisions
+net multicast network.interface.total.mcasts
+net rx_bytes network.interface.in.bytes
+net rx_compressed network.interface.in.compressed
+net rx_crc_errors
+net rx_dropped network.interface.in.drops
+net rx_errors network.interface.in.errors
+net rx_fifo_errors network.interface.in.fifo
+net rx_frame_errors network.interface.in.frame
+net rx_length_errors
+net rx_missed_errors
+net rx_over_errors
+net rx_packets network.interface.in.packets
+net tx_aborted_errors
+net tx_bytes network.interface.out.bytes
+net tx_carrier_errors network.interface.out.carrier
+net tx_compressed network.interface.out.compressed
+net tx_dropped
+net tx_errors network.interface.out.errors
+net tx_fifo_errors
+net tx_heartbeat_errors
+net tx_packets network.interface.out.packets
+net tx_window_errors
+intel_snb_cbo RxR_OCCUPANCY
+intel_snb_cbo LLC_LOOKUP
+intel_snb_cbo COUNTER0_OCCUPANCY
+intel_snb_cbo CLOCK_TICKS
+mem MemTotal mem.numa.util.total
+mem MemFree mem.numa.util.free
+mem MemUsed mem.numa.util.used
+mem Active mem.numa.util.active
+mem Inactive mem.numa.util.inactive
+mem Dirty mem.numa.util.dirty
+mem Writeback mem.numa.util.writeback
+mem FilePages
+mem Mapped mem.numa.util.mapped
+mem AnonPages mem.numa.util.anonpages
+mem PageTables mem.numa.util.pageTables
+mem NFS_Unstable mem.numa.util.NFS_Unstable
+mem Bounce mem.numa.util.bounce
+mem Slab mem.numa.util.slab
+mem HugePages_Total mem.numa.util.hugepagesTotal
+mem HugePages_Free mem.numa.util.hugepagesFree
+intel_uncore PERF_GLOBAL_CTRL
+intel_uncore PERF_GLOBAL_STATUS
+intel_uncore PERF_GLOBAL_OVF_CTRL
+intel_uncore FIXED_CTR0
+intel_uncore FIXED_CTR_CTRL
+intel_uncore ADDR_OPCODE_MATCH
+intel_uncore PMC0
+intel_uncore PMC1
+intel_uncore PMC2
+intel_uncore PMC3
+intel_uncore PMC4
+intel_uncore PMC5
+intel_uncore PMC6
+intel_uncore PMC7
+intel_uncore PERFEVTSEL0
+intel_uncore PERFEVTSEL1
+intel_uncore PERFEVTSEL2
+intel_uncore PERFEVTSEL3
+intel_uncore PERFEVTSEL4
+intel_uncore PERFEVTSEL5
+intel_uncore PERFEVTSEL6
+intel_uncore PERFEVTSEL7
+intel_snb_pcu MAX_TEMP_CYCLES
+intel_snb_pcu MAX_POWER_CYCLES
+intel_snb_pcu MIN_IO_CYCLES
+intel_snb_pcu MIN_SNOOP_CYCLES
+intel_snb_pcu C3_CYCLES
+intel_snb_pcu C6_CYCLES
+intel_snb_hau READ_REQUESTS
+intel_snb_hau WRITE_REQUESTS
+intel_snb_hau CLOCKTICKS
+intel_snb_hau IMC_WRITES
+numa numa_hit mem.numa.alloc.hit
+numa numa_miss mem.numa.alloc.miss
+numa numa_foreign mem.numa.alloc.foreign
+numa interleave_hit mem.numa.alloc.interleave_hit
+numa local_node mem.numa.alloc.local_node
+numa other_node mem.numa.alloc.other_node
+intel_nhm FIXED_CTR0
+intel_nhm FIXED_CTR1
+intel_nhm FIXED_CTR2
+intel_nhm CTL0
+intel_nhm CTL1
+intel_nhm CTL2
+intel_nhm CTL3
+intel_nhm CTR0
+intel_nhm CTR1
+intel_nhm CTR2
+intel_nhm CTR3
+tmpfs bytes_used tmpfs.used
+tmpfs files_used tmpfs.usedfiles
+lnet tx_msgs
+lnet rx_msgs
+lnet rx_msgs_dropped
+lnet tx_bytes
+lnet rx_bytes
+lnet rx_bytes_dropped
+intel_snb LOAD_OPS_ALL
+intel_snb LOAD_OPS_L1_HIT
+intel_snb LOAD_OPS_L2_HIT
+intel_snb LOAD_OPS_LLC_HIT
+intel_snb LOAD_L1D_ALL
+intel_snb SSE_DOUBLE_SCALAR
+intel_snb SSE_DOUBLE_PACKED
+intel_snb SIMD_DOUBLE_256
+intel_snb INSTRUCTIONS_RETIRED
+intel_snb CLOCKS_UNHALTED_CORE
+intel_snb CLOCKS_UNHALTED_REF
+intel_snb_qpi TxL_FLITS_G1_SNP
+intel_snb_qpi TxL_FLITS_G1_HOM
+intel_snb_qpi G1_DRS_DATA
+intel_snb_qpi G2_NCB_DATA
+ib_ext port_select
+ib_ext counter_select
+ib_ext port_xmit_data
+ib_ext port_rcv_data
+ib_ext port_xmit_pkts
+ib_ext port_rcv_pkts
+ib_ext port_unicast_xmit_pkts
+ib_ext port_unicast_rcv_pkts
+ib_ext port_multicast_xmit_pkts
+ib_ext port_multicast_rcv_pkts
+sysv_shm mem_used ipc.shm.max_shmsys
+sysv_shm segs_used ipc.shm.max_seg
+nfs inode_revalidate
+nfs dentry_revalidate
+nfs data_invalidate
+nfs attr_invalidate
+nfs vfs_open
+nfs vfs_lookup
+nfs vfs_access
+nfs vfs_updatepage
+nfs vfs_readpage
+nfs vfs_readpages
+nfs vfs_writepage
+nfs vfs_writepages
+nfs vfs_getdents
+nfs vfs_setattr
+nfs vfs_flush
+nfs vfs_fsync
+nfs vfs_lock
+nfs vfs_release
+nfs congestion_wait
+nfs setattr_trunc
+nfs extend_write
+nfs silly_rename
+nfs short_read
+nfs short_write
+nfs delay
+nfs normal_read
+nfs normal_write
+nfs direct_read
+nfs direct_write
+nfs server_read
+nfs server_write
+nfs read_page
+nfs write_page
+nfs xprt_sends
+nfs xprt_recvs
+nfs xprt_bad_xids
+nfs xprt_req_u
+nfs xprt_bklog_u
+nfs ACCESS_ops
+nfs ACCESS_ntrans
+nfs ACCESS_timeouts
+nfs ACCESS_bytes_sent
+nfs ACCESS_bytes_recv
+nfs ACCESS_queue
+nfs ACCESS_rtt
+nfs ACCESS_execute
+nfs COMMIT_ops
+nfs COMMIT_ntrans
+nfs COMMIT_timeouts
+nfs COMMIT_bytes_sent
+nfs COMMIT_bytes_recv
+nfs COMMIT_queue
+nfs COMMIT_rtt
+nfs COMMIT_execute
+nfs CREATE_ops
+nfs CREATE_ntrans
+nfs CREATE_timeouts
+nfs CREATE_bytes_sent
+nfs CREATE_bytes_recv
+nfs CREATE_queue
+nfs CREATE_rtt
+nfs CREATE_execute
+nfs FSINFO_ops
+nfs FSINFO_ntrans
+nfs FSINFO_timeouts
+nfs FSINFO_bytes_sent
+nfs FSINFO_bytes_recv
+nfs FSINFO_queue
+nfs FSINFO_rtt
+nfs FSINFO_execute
+nfs FSSTAT_ops
+nfs FSSTAT_ntrans
+nfs FSSTAT_timeouts
+nfs FSSTAT_bytes_sent
+nfs FSSTAT_bytes_recv
+nfs FSSTAT_queue
+nfs FSSTAT_rtt
+nfs FSSTAT_execute
+nfs GETATTR_ops
+nfs GETATTR_ntrans
+nfs GETATTR_timeouts
+nfs GETATTR_bytes_sent
+nfs GETATTR_bytes_recv
+nfs GETATTR_queue
+nfs GETATTR_rtt
+nfs GETATTR_execute
+nfs LINK_ops
+nfs LINK_ntrans
+nfs LINK_timeouts
+nfs LINK_bytes_sent
+nfs LINK_bytes_recv
+nfs LINK_queue
+nfs LINK_rtt
+nfs LINK_execute
+nfs LOOKUP_ops
+nfs LOOKUP_ntrans
+nfs LOOKUP_timeouts
+nfs LOOKUP_bytes_sent
+nfs LOOKUP_bytes_recv
+nfs LOOKUP_queue
+nfs LOOKUP_rtt
+nfs LOOKUP_execute
+nfs MKDIR_ops
+nfs MKDIR_ntrans
+nfs MKDIR_timeouts
+nfs MKDIR_bytes_sent
+nfs MKDIR_bytes_recv
+nfs MKDIR_queue
+nfs MKDIR_rtt
+nfs MKDIR_execute
+nfs MKNOD_ops
+nfs MKNOD_ntrans
+nfs MKNOD_timeouts
+nfs MKNOD_bytes_sent
+nfs MKNOD_bytes_recv
+nfs MKNOD_queue
+nfs MKNOD_rtt
+nfs MKNOD_execute
+nfs PATHCONF_ops
+nfs PATHCONF_ntrans
+nfs PATHCONF_timeouts
+nfs PATHCONF_bytes_sent
+nfs PATHCONF_bytes_recv
+nfs PATHCONF_queue
+nfs PATHCONF_rtt
+nfs PATHCONF_execute
+nfs READ_ops
+nfs READ_ntrans
+nfs READ_timeouts
+nfs READ_bytes_sent
+nfs READ_bytes_recv
+nfs READ_queue
+nfs READ_rtt
+nfs READ_execute
+nfs READDIR_ops
+nfs READDIR_ntrans
+nfs READDIR_timeouts
+nfs READDIR_bytes_sent
+nfs READDIR_bytes_recv
+nfs READDIR_queue
+nfs READDIR_rtt
+nfs READDIR_execute
+nfs READDIRPLUS_ops
+nfs READDIRPLUS_ntrans
+nfs READDIRPLUS_timeouts
+nfs READDIRPLUS_bytes_sent
+nfs READDIRPLUS_bytes_recv
+nfs READDIRPLUS_queue
+nfs READDIRPLUS_rtt
+nfs READDIRPLUS_execute
+nfs READLINK_ops
+nfs READLINK_ntrans
+nfs READLINK_timeouts
+nfs READLINK_bytes_sent
+nfs READLINK_bytes_recv
+nfs READLINK_queue
+nfs READLINK_rtt
+nfs READLINK_execute
+nfs REMOVE_ops
+nfs REMOVE_ntrans
+nfs REMOVE_timeouts
+nfs REMOVE_bytes_sent
+nfs REMOVE_bytes_recv
+nfs REMOVE_queue
+nfs REMOVE_rtt
+nfs REMOVE_execute
+nfs RENAME_ops
+nfs RENAME_ntrans
+nfs RENAME_timeouts
+nfs RENAME_bytes_sent
+nfs RENAME_bytes_recv
+nfs RENAME_queue
+nfs RENAME_rtt
+nfs RENAME_execute
+nfs RMDIR_ops
+nfs RMDIR_ntrans
+nfs RMDIR_timeouts
+nfs RMDIR_bytes_sent
+nfs RMDIR_bytes_recv
+nfs RMDIR_queue
+nfs RMDIR_rtt
+nfs RMDIR_execute
+nfs SETATTR_ops
+nfs SETATTR_ntrans
+nfs SETATTR_timeouts
+nfs SETATTR_bytes_sent
+nfs SETATTR_bytes_recv
+nfs SETATTR_queue
+nfs SETATTR_rtt
+nfs SETATTR_execute
+nfs SYMLINK_ops
+nfs SYMLINK_ntrans
+nfs SYMLINK_timeouts
+nfs SYMLINK_bytes_sent
+nfs SYMLINK_bytes_recv
+nfs SYMLINK_queue
+nfs SYMLINK_rtt
+nfs SYMLINK_execute
+nfs WRITE_ops
+nfs WRITE_ntrans
+nfs WRITE_timeouts
+nfs WRITE_bytes_sent
+nfs WRITE_bytes_recv
+nfs WRITE_queue
+nfs WRITE_rtt
+nfs WRITE_execute
+vfs dentry_use vfs.dentry.count
+vfs file_use vfs.files.count
+vfs inode_use vfs.inodes.count
+cpu user kernel.percpu.cpu.user
+cpu nice kernel.percpu.cpu.nice
+cpu system kernel.percpu.cpu.sys
+cpu idle kernel.percpu.cpu.idle
+cpu iowait kernel.percpu.cpu.wait.total
+cpu irq kernel.percpu.cpu.irq.hard
+cpu softirq kernel.percpu.cpu.irq.soft
+block rd_ios disk.dev.read
+block rd_merges disk.dev.read_merge
+block rd_sectors disk.dev.read_bytes
+block rd_ticks disk.dev.read_rawactive
+block wr_ios disk.dev.write
+block wr_merges disk.dev.write_merge
+block wr_sectors disk.dev.write_bytes
+block wr_ticks disk.dev.write_rawactive
+block in_flight
+block io_ticks
+block time_in_queue

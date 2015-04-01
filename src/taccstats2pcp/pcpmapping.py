@@ -201,6 +201,15 @@ pcpmappingdict = {
 			'inst_pattern': '%d',
 			'iname_pattern': 'node%d',
 			'indom': 251658259},	#60.19
+		'FilePages': {
+			'name': 'mem.numa.util.filePages',
+			'pmid': 251695121,	#60.36.17
+			'type': 3,	#U64
+			'sem': 3,
+			'units': 'Kbyte',
+			'inst_pattern': '%d',
+			'iname_pattern': 'node%d',
+			'indom': 251658259},	#60.19
 		'HugePages_Free': {
 			'name': 'mem.numa.util.hugepagesFree',
 			'pmid': 251695134,	#60.36.30

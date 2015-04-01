@@ -161,7 +161,7 @@ mem Active mem.numa.util.active
 mem Inactive mem.numa.util.inactive
 mem Dirty mem.numa.util.dirty
 mem Writeback mem.numa.util.writeback
-mem FilePages
+mem FilePages mem.numa.util.filePages
 mem Mapped mem.numa.util.mapped
 mem AnonPages mem.numa.util.anonpages
 mem PageTables mem.numa.util.pageTables

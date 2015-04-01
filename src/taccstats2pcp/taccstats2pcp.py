@@ -151,6 +151,10 @@ class TaccStatsReader(object):
         self.timedict={}
         #self.marks = {}
 
+        self.activejobs={}
+        self.markrecords={}
+        self.jobinst = {}
+
         self.timestamp = None
         self.filename = None
         self.fileline = None
@@ -223,11 +227,27 @@ class TaccStatsReader(object):
         elif ch == self.SF_COMMENT_CHAR:
             pass
         elif ch == self.SF_MARK_CHAR:
-            #print "Skipping mark for now"
+            self.processmark(line[1:])
             pass
         else:
             print "Unrecognised character \"{}\"".format(line)
             pass
+
+    def processmark(self, line):
+        '''Read in a mark line
+        '''
+        action, jobid = line.strip().split()
+        if action == "begin" and jobid not in self.activejobs:
+            self.activejobs[jobid] = "begin"
+            if self.timestamp not in self.markrecords:
+                self.markrecords[self.timestamp] = {}
+            self.markrecords[self.timestamp][jobid] = "begin"
+            self.jobinst[jobid] = 1
+            #print "Job %s beginning" % jobid
+        if action == "end" and jobid in self.activejobs:
+            self.markrecords[self.timestamp][jobid] = "end"
+            #print "Job %s ending" % jobid
+            del self.activejobs[jobid]
 
     def processtimestamp(self,line):
         '''Read in a timestamp line
@@ -235,8 +255,16 @@ class TaccStatsReader(object):
 
         recs = line.strip().split(" ")
         self.timestamp = float(recs[0])
-    #SAVE to deal with job info later
-        #jobs = recs[1].strip().split(",")
+        jobs = recs[1].strip().split(",")
+        for job in jobs:
+            if job in self.activejobs:
+                if self.activejobs[job] == "begin":
+                    self.activejobs[job] == "running"
+                    if self.timestamp not in self.markrecords:
+                        self.markrecords[self.timestamp] = {}
+                    self.markrecords[self.timestamp][job] = "running"
+                    #print "Job %s running" % job
+                    
         self.times.append( self.timestamp )
 
     def processdata(self,line):
@@ -386,7 +414,7 @@ class TaccStats2PCPEngine(object):
         return (pcpname, cur_value)
 
     def itermetrics(self, timestamp):
-        print "Itermetrics called at %d" % timestamp
+        #print "Itermetrics called at %d" % timestamp
         # Return the metrics at this timestamp
         for type in self.stats:
             # If we know how to deal with this metric
@@ -591,6 +619,12 @@ class TaccStats2PCP(object):
                             if instance_id not in self.added_instances:
                                 self.added_instances[instance_id] = iname
                                 self.pcpout.pmiAddInstance(p_indom, iname, inst)
+
+        # Dummy slurm mappings for now until the PMDA is written
+        self.pcpout.pmiAddMetric( "slurm.node.job.state", pmi.pmiLogImport.pmiID(200, 5, 5), 6, pmi.pmiLogImport.pmiInDom(200, 5), 4, pmapi.pmContext.pmParseUnitsStr("")[0] )
+
+        for job in self.tsreader.jobinst:
+            self.pcpout.pmiAddInstance(pmi.pmiLogImport.pmiInDom(200, 5), job, int(job))
     
     
     def write_metrics(self):
@@ -612,6 +646,13 @@ class TaccStats2PCP(object):
                 else:
                     #print "Putting %s %s int(string): %d (%s)" % (pcpname, iname, cur_value,cur_value)
                     self.pcpout.pmiPutValue( pcpname, iname, "%d" % cur_value )
+
+            # Slurm fakeout
+            time = self.tsreader.times[i]
+            if time in self.tsreader.markrecords:
+                for job in self.tsreader.markrecords[time]:
+                    state = self.tsreader.markrecords[time][job]
+                    self.pcpout.pmiPutValue( "slurm.node.job.state", job, state );
     
             timetuple = math.modf(self.tsreader.times[i])
             useconds = int(timetuple[0] * 1000000)

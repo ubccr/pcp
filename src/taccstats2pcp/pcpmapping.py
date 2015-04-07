@@ -704,7 +704,7 @@ pcpmappingdict = {
 	},
 	'amd64_core': {
 		'DCSF': {
-			'name': 'perfevent.hwcounters.DATA_CACHE_REFILLS_SYSTEM',
+			'name': 'perfevent.hwcounters.DATA_CACHE_REFILLS_SYSTEM.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 1, 0),
 			'type': 3,
 			'sem': 1,
@@ -713,7 +713,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 0)},
 		'SSE_FLOPS': {
-			'name': 'perfevent.hwcounters.RETIRED_SSE_OPERATIONS_ALL',
+			'name': 'perfevent.hwcounters.RETIRED_SSE_OPERATIONS_ALL.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 2, 0),
 			'type': 3,
 			'sem': 1,
@@ -722,7 +722,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 1)},
 		'USER': {
-			'name': 'perfevent.hwcounters.CPU_CLK_UNHALTED_u',
+			'name': 'perfevent.hwcounters.CPU_CLK_UNHALTED_u.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 3, 0),
 			'type': 3,
 			'sem': 1,
@@ -733,7 +733,7 @@ pcpmappingdict = {
 	},
 	'amd64_sock': {
 		'DRAM': {
-			'name': 'perfevent.hwcounters.DRAM_ACCESSES_PAGE_HIT_MISS_CONFLICT',
+			'name': 'perfevent.hwcounters.DRAM_ACCESSES_PAGE_HIT_MISS_CONFLICT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 4, 0),
 			'type': 3,
 			'sem': 1,
@@ -742,7 +742,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 3)},
 		'HT0': {
-			'name': 'perfevent.hwcounters.HYPERTRANSPORT_LINK0_COMMAND_DWORD_SENT_DATA_DWORD_SENT_BUFFER_RELEASE_DWORD_SENT_ADDRESS_EXT_DWORD_SENT_PER_PACKET_CRC_SENT',
+			'name': 'perfevent.hwcounters.HYPERTRANSPORT_LINK0_COMMAND_DWORD_SENT_DATA_DWORD_SENT_BUFFER_RELEASE_DWORD_SENT_ADDRESS_EXT_DWORD_SENT_PER_PACKET_CRC_SENT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 5, 0),
 			'type': 3,
 			'sem': 1,
@@ -751,7 +751,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 4)},
 		'HT1': {
-			'name': 'perfevent.hwcounters.HYPERTRANSPORT_LINK1_COMMAND_DWORD_SENT_DATA_DWORD_SENT_BUFFER_RELEASE_DWORD_SENT_ADDRESS_EXT_DWORD_SENT_PER_PACKET_CRC_SENT',
+			'name': 'perfevent.hwcounters.HYPERTRANSPORT_LINK1_COMMAND_DWORD_SENT_DATA_DWORD_SENT_BUFFER_RELEASE_DWORD_SENT_ADDRESS_EXT_DWORD_SENT_PER_PACKET_CRC_SENT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 6, 0),
 			'type': 3,
 			'sem': 1,
@@ -760,7 +760,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 5)},
 		'HT2': {
-			'name': 'perfevent.hwcounters.HYPERTRANSPORT_LINK2_COMMAND_DWORD_SENT_DATA_DWORD_SENT_BUFFER_RELEASE_DWORD_SENT_ADDRESS_EXT_DWORD_SENT_PER_PACKET_CRC_SENT',
+			'name': 'perfevent.hwcounters.HYPERTRANSPORT_LINK2_COMMAND_DWORD_SENT_DATA_DWORD_SENT_BUFFER_RELEASE_DWORD_SENT_ADDRESS_EXT_DWORD_SENT_PER_PACKET_CRC_SENT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 7, 0),
 			'type': 3,
 			'sem': 1,
@@ -771,7 +771,7 @@ pcpmappingdict = {
 	},
 	'intel_pmc3': {
 		'CLOCKS_UNHALTED_CORE': {
-			'name': 'perfevent.hwcounters.UNHALTED_CORE_CYCLES',
+			'name': 'perfevent.hwcounters.UNHALTED_CORE_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 8, 0),
 			'type': 3,
 			'sem': 1,
@@ -780,7 +780,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 7)},
 		'CLOCKS_UNHALTED_REF': {
-			'name': 'perfevent.hwcounters.UNHALTED_REFERENCE_CYCLES',
+			'name': 'perfevent.hwcounters.UNHALTED_REFERENCE_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 9, 0),
 			'type': 3,
 			'sem': 1,
@@ -789,7 +789,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 8)},
 		'FP_COMP_OPS_EXE_SSE': {
-			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_SSE_FP',
+			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_SSE_FP.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 10, 0),
 			'type': 3,
 			'sem': 1,
@@ -798,7 +798,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 9)},
 		'FP_COMP_OPS_EXE_X87': {
-			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_X87',
+			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_X87.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 11, 0),
 			'type': 3,
 			'sem': 1,
@@ -807,7 +807,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 10)},
 		'INSTRUCTIONS_RETIRED': {
-			'name': 'perfevent.hwcounters.INSTRUCTIONS_RETIRED',
+			'name': 'perfevent.hwcounters.INSTRUCTIONS_RETIRED.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 12, 0),
 			'type': 3,
 			'sem': 1,
@@ -816,7 +816,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 11)},
 		'MEM_LOAD_RETIRED_L1D_HIT': {
-			'name': 'perfevent.hwcounters.MEM_LOAD_RETIRED_L1D_HIT',
+			'name': 'perfevent.hwcounters.MEM_LOAD_RETIRED_L1D_HIT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 13, 0),
 			'type': 3,
 			'sem': 1,
@@ -825,7 +825,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 12)},
 		'MEM_UNCORE_RETIRED_LOCAL_DRAM': {
-			'name': 'perfevent.hwcounters.MEM_UNCORE_RETIRED_OTHER_LLC_MISS',
+			'name': 'perfevent.hwcounters.MEM_UNCORE_RETIRED_OTHER_LLC_MISS.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 14, 0),
 			'type': 3,
 			'sem': 1,
@@ -834,7 +834,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 13)},
 		'MEM_UNCORE_RETIRED_REMOTE_DRAM': {
-			'name': 'perfevent.hwcounters.MEM_UNCORE_RETIRED_REMOTE_DRAM',
+			'name': 'perfevent.hwcounters.MEM_UNCORE_RETIRED_REMOTE_DRAM.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 15, 0),
 			'type': 3,
 			'sem': 1,
@@ -845,7 +845,7 @@ pcpmappingdict = {
 	},
 	'intel_snb': {
 		'CLOCKS_UNHALTED_CORE': {
-			'name': 'perfevent.hwcounters.UNHALTED_CORE_CYCLES',
+			'name': 'perfevent.hwcounters.UNHALTED_CORE_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 16, 0),
 			'type': 3,
 			'sem': 1,
@@ -854,7 +854,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 15)},
 		'CLOCKS_UNHALTED_REF': {
-			'name': 'perfevent.hwcounters.UNHALTED_REFERENCE_CYCLES',
+			'name': 'perfevent.hwcounters.UNHALTED_REFERENCE_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 17, 0),
 			'type': 3,
 			'sem': 1,
@@ -863,7 +863,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 16)},
 		'INSTRUCTIONS_RETIRED': {
-			'name': 'perfevent.hwcounters.INSTRUCTION_RETIRED',
+			'name': 'perfevent.hwcounters.INSTRUCTION_RETIRED.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 18, 0),
 			'type': 3,
 			'sem': 1,
@@ -872,7 +872,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 17)},
 		'LOAD_L1D_ALL': {
-			'name': 'perfevent.hwcounters.L1D_REPLACEMENT',
+			'name': 'perfevent.hwcounters.L1D_REPLACEMENT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 19, 0),
 			'type': 3,
 			'sem': 1,
@@ -881,7 +881,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 18)},
 		'LOAD_OPS_ALL': {
-			'name': 'perfevent.hwcounters.MEM_UOPS_RETIRED_ALL_LOADS',
+			'name': 'perfevent.hwcounters.MEM_UOPS_RETIRED_ALL_LOADS.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 20, 0),
 			'type': 3,
 			'sem': 1,
@@ -890,7 +890,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 19)},
 		'LOAD_OPS_L1_HIT': {
-			'name': 'perfevent.hwcounters.MEM_LOAD_UOPS_RETIRED_L1_HIT',
+			'name': 'perfevent.hwcounters.MEM_LOAD_UOPS_RETIRED_L1_HIT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 21, 0),
 			'type': 3,
 			'sem': 1,
@@ -899,7 +899,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 20)},
 		'LOAD_OPS_L2_HIT': {
-			'name': 'perfevent.hwcounters.MEM_LOAD_UOPS_RETIRED_L2_HIT',
+			'name': 'perfevent.hwcounters.MEM_LOAD_UOPS_RETIRED_L2_HIT.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 22, 0),
 			'type': 3,
 			'sem': 1,
@@ -908,7 +908,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 21)},
 		'LOAD_OPS_LLC_HIT': {
-			'name': 'perfevent.hwcounters.MEM_LOAD_UOPS_RETIRED_HIT_LFB',
+			'name': 'perfevent.hwcounters.MEM_LOAD_UOPS_RETIRED_HIT_LFB.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 23, 0),
 			'type': 3,
 			'sem': 1,
@@ -917,7 +917,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 22)},
 		'SIMD_DOUBLE_256': {
-			'name': 'perfevent.hwcounters.SIMD_FP_256_PACKED_DOUBLE',
+			'name': 'perfevent.hwcounters.SIMD_FP_256_PACKED_DOUBLE.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 24, 0),
 			'type': 3,
 			'sem': 1,
@@ -926,7 +926,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 23)},
 		'SSE_DOUBLE_PACKED': {
-			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_SSE_FP_PACKED_DOUBLE',
+			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_SSE_FP_PACKED_DOUBLE.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 25, 0),
 			'type': 3,
 			'sem': 1,
@@ -935,7 +935,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 24)},
 		'SSE_DOUBLE_SCALAR': {
-			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_SSE_SCALAR_DOUBLE',
+			'name': 'perfevent.hwcounters.FP_COMP_OPS_EXE_SSE_SCALAR_DOUBLE.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 26, 0),
 			'type': 3,
 			'sem': 1,
@@ -946,7 +946,7 @@ pcpmappingdict = {
 	},
 	'intel_snb_cbo': {
 		'CLOCK_TICKS': {
-			'name': 'perfevent.hwcounters.snbep_unc_cbo%d__UNC_C_CLOCKTICKS',
+			'name': 'perfevent.hwcounters.snbep_unc_cbo.value%d__UNC_C_CLOCKTICKS',
 			'pmid': pmi.pmiLogImport.pmiID(127, 27, 0),
 			'type': 3,
 			'sem': 1,
@@ -955,7 +955,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 26)},
 		'COUNTER0_OCCUPANCY': {
-			'name': 'perfevent.hwcounters.snbep_unc_cbo%d__UNC_C_COUNTER0_OCCUPANCY_e_t_1',
+			'name': 'perfevent.hwcounters.snbep_unc_cbo.value%d__UNC_C_COUNTER0_OCCUPANCY_e_t_1',
 			'pmid': pmi.pmiLogImport.pmiID(127, 28, 0),
 			'type': 3,
 			'sem': 1,
@@ -964,7 +964,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 27)},
 		'LLC_LOOKUP': {
-			'name': 'perfevent.hwcounters.snbep_unc_cbo%d__UNC_C_LLC_LOOKUP_DATA_READ',
+			'name': 'perfevent.hwcounters.snbep_unc_cbo.value%d__UNC_C_LLC_LOOKUP_DATA_READ',
 			'pmid': pmi.pmiLogImport.pmiID(127, 29, 0),
 			'type': 3,
 			'sem': 1,
@@ -973,7 +973,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 28)},
 		'RxR_OCCUPANCY': {
-			'name': 'perfevent.hwcounters.snbep_unc_cbo%d__UNC_C_RXR_OCCUPANCY_IRQ',
+			'name': 'perfevent.hwcounters.snbep_unc_cbo.value%d__UNC_C_RXR_OCCUPANCY_IRQ',
 			'pmid': pmi.pmiLogImport.pmiID(127, 30, 0),
 			'type': 3,
 			'sem': 1,
@@ -984,7 +984,7 @@ pcpmappingdict = {
 	},
 	'intel_snb_hau': {
 		'CLOCKTICKS': {
-			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_CLOCKTICKS',
+			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_CLOCKTICKS.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 31, 0),
 			'type': 3,
 			'sem': 1,
@@ -993,7 +993,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 30)},
 		'IMC_WRITES': {
-			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_IMC_WRITES_ALL',
+			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_IMC_WRITES_ALL.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 32, 0),
 			'type': 3,
 			'sem': 1,
@@ -1002,7 +1002,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 31)},
 		'READ_REQUESTS': {
-			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_REQUESTS_READS',
+			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_REQUESTS_READS.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 33, 0),
 			'type': 3,
 			'sem': 1,
@@ -1011,7 +1011,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 32)},
 		'WRITE_REQUESTS': {
-			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_REQUESTS_WRITES',
+			'name': 'perfevent.hwcounters.snbep_unc_ha__UNC_H_REQUESTS_WRITES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 34, 0),
 			'type': 3,
 			'sem': 1,
@@ -1022,7 +1022,7 @@ pcpmappingdict = {
 	},
 	'intel_snb_imc': {
 		'ACT_COUNT': {
-			'name': 'perfevent.hwcounters.snbep_unc_imc%d__UNC_M_ACT_COUNT',
+			'name': 'perfevent.hwcounters.snbep_unc_imc.value%d__UNC_M_ACT_COUNT',
 			'pmid': pmi.pmiLogImport.pmiID(127, 35, 0),
 			'type': 3,
 			'sem': 1,
@@ -1031,7 +1031,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 34)},
 		'CAS_READS': {
-			'name': 'perfevent.hwcounters.snbep_unc_imc%d__UNC_M_CAS_COUNT_RD',
+			'name': 'perfevent.hwcounters.snbep_unc_imc.value%d__UNC_M_CAS_COUNT_RD',
 			'pmid': pmi.pmiLogImport.pmiID(127, 36, 0),
 			'type': 3,
 			'sem': 1,
@@ -1040,7 +1040,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 35)},
 		'CAS_WRITES': {
-			'name': 'perfevent.hwcounters.snbep_unc_imc%d__UNC_M_CAS_COUNT_WR',
+			'name': 'perfevent.hwcounters.snbep_unc_imc.value%d__UNC_M_CAS_COUNT_WR',
 			'pmid': pmi.pmiLogImport.pmiID(127, 37, 0),
 			'type': 3,
 			'sem': 1,
@@ -1049,7 +1049,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 36)},
 		'CYCLES': {
-			'name': 'perfevent.hwcounters.snbep_unc_imc%d__UNC_M_CLOCKTICKS',
+			'name': 'perfevent.hwcounters.snbep_unc_imc.value%d__UNC_M_CLOCKTICKS',
 			'pmid': pmi.pmiLogImport.pmiID(127, 38, 0),
 			'type': 3,
 			'sem': 1,
@@ -1058,7 +1058,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 37)},
 		'PRE_COUNT_MISS': {
-			'name': 'perfevent.hwcounters.snbep_unc_imc%d__UNC_M_PRE_COUNT_PAGE_MISS',
+			'name': 'perfevent.hwcounters.snbep_unc_imc.value%d__UNC_M_PRE_COUNT_PAGE_MISS',
 			'pmid': pmi.pmiLogImport.pmiID(127, 39, 0),
 			'type': 3,
 			'sem': 1,
@@ -1069,7 +1069,7 @@ pcpmappingdict = {
 	},
 	'intel_snb_pcu': {
 		'C3_CYCLES': {
-			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_CLOCKTICKS_C3',
+			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_CLOCKTICKS_C3.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 40, 0),
 			'type': 3,
 			'sem': 1,
@@ -1078,7 +1078,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 39)},
 		'C6_CYCLES': {
-			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_CLOCKTICKS_C6',
+			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_CLOCKTICKS_C6.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 41, 0),
 			'type': 3,
 			'sem': 1,
@@ -1087,7 +1087,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 40)},
 		'MAX_POWER_CYCLES': {
-			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MAX_POWER_CYCLES',
+			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MAX_POWER_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 42, 0),
 			'type': 3,
 			'sem': 1,
@@ -1096,7 +1096,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 41)},
 		'MAX_TEMP_CYCLES': {
-			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MAX_LIMIT_THERMAL_CYCLES',
+			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MAX_LIMIT_THERMAL_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 43, 0),
 			'type': 3,
 			'sem': 1,
@@ -1105,7 +1105,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 42)},
 		'MIN_IO_CYCLES': {
-			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MIN_IO_P_CYCLES',
+			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MIN_IO_P_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 44, 0),
 			'type': 3,
 			'sem': 1,
@@ -1114,7 +1114,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 43)},
 		'MIN_SNOOP_CYCLES': {
-			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MIN_PERF_P_CYCLES',
+			'name': 'perfevent.hwcounters.snbep_unc_pcu__UNC_P_FREQ_MIN_PERF_P_CYCLES.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 45, 0),
 			'type': 3,
 			'sem': 1,
@@ -1125,7 +1125,7 @@ pcpmappingdict = {
 	},
 	'intel_snb_qpi': {
 		'G1_DRS_DATA': {
-			'name': 'perfevent.hwcounters.snbep_unc_qpi%d__UNC_Q_RXL_FLITS_G1_DRS_DATA',
+			'name': 'perfevent.hwcounters.snbep_unc_qpi.value%d__UNC_Q_RXL_FLITS_G1_DRS_DATA',
 			'pmid': pmi.pmiLogImport.pmiID(127, 46, 0),
 			'type': 3,
 			'sem': 1,
@@ -1134,7 +1134,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 45)},
 		'G2_NCB_DATA': {
-			'name': 'perfevent.hwcounters.snbep_unc_qpi%d__UNC_Q_RXL_FLITS_G2_NCB_DATA',
+			'name': 'perfevent.hwcounters.snbep_unc_qpi.value%d__UNC_Q_RXL_FLITS_G2_NCB_DATA',
 			'pmid': pmi.pmiLogImport.pmiID(127, 47, 0),
 			'type': 3,
 			'sem': 1,
@@ -1143,7 +1143,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 46)},
 		'TxL_FLITS_G1_HOM': {
-			'name': 'perfevent.hwcounters.snbep_unc_qpi%d__UNC_Q_TXL_FLITS_G1_HOM_NONREQ',
+			'name': 'perfevent.hwcounters.snbep_unc_qpi.value%d__UNC_Q_TXL_FLITS_G1_HOM_NONREQ',
 			'pmid': pmi.pmiLogImport.pmiID(127, 48, 0),
 			'type': 3,
 			'sem': 1,
@@ -1152,7 +1152,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 47)},
 		'TxL_FLITS_G1_SNP': {
-			'name': 'perfevent.hwcounters.snbep_unc_qpi%d__UNC_Q_TXL_FLITS_G1_SNP',
+			'name': 'perfevent.hwcounters.snbep_unc_qpi.value%d__UNC_Q_TXL_FLITS_G1_SNP',
 			'pmid': pmi.pmiLogImport.pmiID(127, 49, 0),
 			'type': 3,
 			'sem': 1,
@@ -1163,7 +1163,7 @@ pcpmappingdict = {
 	},
 	'intel_snb_r2pci': {
 		'ACKNOWLEDGED_USED': {
-			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_RING_AK_USED_ANY',
+			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_RING_AK_USED_ANY.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 50, 0),
 			'type': 3,
 			'sem': 1,
@@ -1172,7 +1172,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 49)},
 		'ADDRESS_USED': {
-			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_RING_AD_USED_ANY',
+			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_RING_AD_USED_ANY.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 51, 0),
 			'type': 3,
 			'sem': 1,
@@ -1181,7 +1181,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 50)},
 		'CLOCKTICKS': {
-			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_CLOCKTICKS',
+			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_CLOCKTICKS.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 52, 0),
 			'type': 3,
 			'sem': 1,
@@ -1190,7 +1190,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 51)},
 		'DATA_USED': {
-			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_RING_BL_USED_ANY',
+			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_RING_BL_USED_ANY.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 53, 0),
 			'type': 3,
 			'sem': 1,
@@ -1199,7 +1199,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 52)},
 		'TRANSMITS': {
-			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_TXR_INSERTS',
+			'name': 'perfevent.hwcounters.snbep_unc_r2pcie__UNC_R2_TXR_INSERTS.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 54, 0),
 			'type': 3,
 			'sem': 1,
@@ -1210,7 +1210,7 @@ pcpmappingdict = {
 	},
 	'intel_uncore': {
 		'CLOCKS_UNCORE': {
-			'name': 'perfevent.hwcounters.UNC_CLK_UNHALTED',
+			'name': 'perfevent.hwcounters.UNC_CLK_UNHALTED.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 55, 0),
 			'type': 3,
 			'sem': 1,
@@ -1219,7 +1219,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 54)},
 		'L3_HITS_PROBE': {
-			'name': 'perfevent.hwcounters.UNC_LLC_HITS_PROBE',
+			'name': 'perfevent.hwcounters.UNC_LLC_HITS_PROBE.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 56, 0),
 			'type': 3,
 			'sem': 1,
@@ -1228,7 +1228,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 55)},
 		'L3_HITS_READ': {
-			'name': 'perfevent.hwcounters.UNC_LLC_HITS_READ',
+			'name': 'perfevent.hwcounters.UNC_LLC_HITS_READ.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 57, 0),
 			'type': 3,
 			'sem': 1,
@@ -1237,7 +1237,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 56)},
 		'L3_HITS_WRITE': {
-			'name': 'perfevent.hwcounters.UNC_LLC_HITS_WRITE',
+			'name': 'perfevent.hwcounters.UNC_LLC_HITS_WRITE.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 58, 0),
 			'type': 3,
 			'sem': 1,
@@ -1246,7 +1246,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 57)},
 		'L3_LINES_IN_ANY': {
-			'name': 'perfevent.hwcounters.UNC_LLC_LINES_IN_ANY',
+			'name': 'perfevent.hwcounters.UNC_LLC_LINES_IN_ANY.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 59, 0),
 			'type': 3,
 			'sem': 1,
@@ -1255,7 +1255,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 58)},
 		'L3_LINES_OUT_ANY': {
-			'name': 'perfevent.hwcounters.UNC_LLC_LINES_OUT_ANY',
+			'name': 'perfevent.hwcounters.UNC_LLC_LINES_OUT_ANY.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 60, 0),
 			'type': 3,
 			'sem': 1,
@@ -1264,7 +1264,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 59)},
 		'L3_MISS_PROBE': {
-			'name': 'perfevent.hwcounters.UNC_LLC_MISS_PROBE',
+			'name': 'perfevent.hwcounters.UNC_LLC_MISS_PROBE.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 61, 0),
 			'type': 3,
 			'sem': 1,
@@ -1273,7 +1273,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 60)},
 		'L3_MISS_READ': {
-			'name': 'perfevent.hwcounters.UNC_LLC_MISS_READ',
+			'name': 'perfevent.hwcounters.UNC_LLC_MISS_READ.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 62, 0),
 			'type': 3,
 			'sem': 1,
@@ -1282,7 +1282,7 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 61)},
 		'L3_MISS_WRITE': {
-			'name': 'perfevent.hwcounters.UNC_LLC_MISS_WRITE',
+			'name': 'perfevent.hwcounters.UNC_LLC_MISS_WRITE.value',
 			'pmid': pmi.pmiLogImport.pmiID(127, 63, 0),
 			'type': 3,
 			'sem': 1,

@@ -143,7 +143,7 @@ for type in sorted(perfmapping):
 
         print "\t\t'%s': {" % metric
         # Replace all - with _ for now
-        print "\t\t\t'name': 'perfevent.hwcounters.%s'," % re.sub(r'[-=]', '_', pcp_metric)
+        print "\t\t\t'name': 'perfevent.hwcounters.%s.value'," % re.sub(r'[-=]', '_', pcp_metric)
         print "\t\t\t'pmid': %s," % pmid
         print "\t\t\t'type': 3,"
         print "\t\t\t'sem': 1,"

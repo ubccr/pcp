@@ -142,7 +142,6 @@ class reformat_counters:
         ## List of Fixed registers
         self.fix_registers = []
 
-        # Just need the first hosts schema
         stats = None
         if name in job.stats:
             stats = job.stats[name]
@@ -164,25 +163,63 @@ class reformat_counters:
                 if reg.find('GLOBAL') == -1 and reg.find('FIXED') == -1 and reg.find('OPCODE_MATCH') == -1:
                     self.ctl_registers.append(registers.index(reg))
 
+        # Need to build this from a known good set of metrics
+        # Maybe call an init function with a "begin" set before we call this main entry point
+        # or each file has a "begin" pointer that we can use in the setup, yeah, this is better
+        # nope, find first "begin" record since we keep track of those and use that index instead of "0" below, check if we store index, if not, add it
+        # a file may have no begins if no job ran, so then have to set everything as bad
+        if job.good_counter_idx >=0:
+            pidx = job.good_counter_idx
+            perf_valid = 1
+        else:
+            pidx = 0
+            perf_valid = 0
+
         # Build Schema from ctl registers and event maps
         dev_schema = []
         for dev, array in stats.iteritems():
             for j in self.ctl_registers:
-                dev_schema.append(event_map.get(array[0,j],str(array[0,j])))
+                dev_schema.append(event_map.get(array[pidx,j],str(array[pidx,j])))
             break
 
-        # Now check for all hosts:
+        # Check that:
         # all devices have the same control settings
         # all devices control setting remain the same during the job
+        # If not, reset the control registers to something we can check later
         if name in job.stats:
             for dev, array in job.stats[name].iteritems():
                 devidx = 0
                 for j in self.ctl_registers:
                     settings = array[:,j]
+                    # Just mark everything as bad in this case
+                    if perf_valid == 0:
+                        dev_schema[devidx] = "ERROR,E"
+                        continue
                     if event_map.get(settings[0],str(settings[0])) != dev_schema[devidx] or settings.min() != settings.max():
                         # The control settings for this device changed during the run
                         # mark as the error metric
-                        dev_schema[devidx] = "ERROR,E"
+                        #dev_schema[devidx] = "ERROR,E"
+                        #
+                        # Change the logic from invalidating the schema to marking the values invalid
+                        # But still do the intial check to try to save some time
+
+                        # Get the expected raw register value
+                        numpy_search = event_map.keys()[ event_map.values().index(dev_schema[devidx])]
+                        
+                        #print "Looking for %s" % numpy_search 
+                        # where returns a tuple even in the 1d case
+                        #
+                        # This is probably slow
+                        bad_vals = numpy.where( settings != numpy_search )
+                        #print "Bad vals %d" % len(bad_vals[0])
+                        for bad_val in bad_vals[0]:
+                            #print  "%d at loc %d" % (settings[bad_val], bad_val)
+                            #print settings.shape
+                            #print settings.ndim
+                            array[bad_val, len(self.ctl_registers):] = [9988998899 for foo in array[bad_val, len(self.ctl_registers):]]
+                            #job.stats[name][dev][bad_val,j] = 99889988
+
+
                     devidx += 1
 
 

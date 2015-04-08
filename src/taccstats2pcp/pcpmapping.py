@@ -1291,4 +1291,260 @@ pcpmappingdict = {
 			'iname_pattern': 'cpu%d',
 			'indom': pmi.pmiLogImport.pmiInDom(127, 62)},
 	},
+    'llite': {
+        'alloc_inode': {
+            'name': 'lustre.llite.alloc_inode.count',
+            'pmid': 562036785,  #134.0.49
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'close': {
+            'name': 'lustre.llite.close.count',
+            'pmid': 562036767,  #134.0.31
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'create': {
+            'name': 'lustre.llite.create.count',
+            'pmid': 562036776,  #134.0.40
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'dirty_pages_hits': {
+            'name': 'lustre.llite.dirty_pages_hits.count',
+            'pmid': 562036763,  #134.0.27
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'dirty_pages_misses': {
+            'name': 'lustre.llite.dirty_pages_misses.count',
+            'pmid': 562036764,  #134.0.28
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'flock': {
+            'name': 'lustre.llite.flock.count',
+            'pmid': 562036774,  #134.0.38
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'fsync': {
+            'name': 'lustre.llite.fsync.count',
+            'pmid': 562036770,  #134.0.34
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'getattr': {
+            'name': 'lustre.llite.getattr.count',
+            'pmid': 562036775,  #134.0.39
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'getxattr': {
+            'name': 'lustre.llite.getxattr.count',
+            'pmid': 562036787,  #134.0.51
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'inode_permission': {
+            'name': 'lustre.llite.inode_permission.count',
+            'pmid': 562036791,  #134.0.55
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'ioctl': {
+            'name': 'lustre.llite.ioctl.count',
+            'pmid': 562036765,  #134.0.29
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'link': {
+            'name': 'lustre.llite.link.count',
+            'pmid': 562036777,  #134.0.41
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'listxattr': {
+            'name': 'lustre.llite.listxattr.count',
+            'pmid': 562036789,  #134.0.53
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'mkdir': {
+            'name': 'lustre.llite.mkdir.count',
+            'pmid': 562036780,  #134.0.44
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'mknod': {
+            'name': 'lustre.llite.mknod.count',
+            'pmid': 562036782,  #134.0.46
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'mmap': {
+            'name': 'lustre.llite.mmap.count',
+            'pmid': 562036768,  #134.0.32
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'open': {
+            'name': 'lustre.llite.open.count',
+            'pmid': 562036766,  #134.0.30
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'read_bytes': {
+            'name': 'lustre.llite.read_bytes.total',
+            'pmid': 562036742,  #134.0.6
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'byte',
+            'indom': 562036736},        #134.0
+        'readdir': {
+            'name': 'lustre.llite.readdir.count',
+            'pmid': 562036771,  #134.0.35
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'removexattr': {
+            'name': 'lustre.llite.removexattr.count',
+            'pmid': 562036790,  #134.0.54
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'rename': {
+            'name': 'lustre.llite.rename.count',
+            'pmid': 562036783,  #134.0.47
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'rmdir': {
+            'name': 'lustre.llite.rmdir.count',
+            'pmid': 562036781,  #134.0.45
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'seek': {
+            'name': 'lustre.llite.seek.count',
+            'pmid': 562036769,  #134.0.33
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'setattr': {
+            'name': 'lustre.llite.setattr.count',
+            'pmid': 562036772,  #134.0.36
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'setxattr': {
+            'name': 'lustre.llite.setxattr.count',
+            'pmid': 562036786,  #134.0.50
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'statfs': {
+            'name': 'lustre.llite.statfs.count',
+            'pmid': 562036784,  #134.0.48
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'symlink': {
+            'name': 'lustre.llite.symlink.count',
+            'pmid': 562036779,  #134.0.43
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'truncate': {
+            'name': 'lustre.llite.truncate.count',
+            'pmid': 562036773,  #134.0.37
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'unlink': {
+            'name': 'lustre.llite.unlink.count',
+            'pmid': 562036778,  #134.0.42
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'count',
+            'indom': 562036736},        #134.0
+        'write_bytes': {
+            'name': 'lustre.llite.write_bytes.total',
+            'pmid': 562036746,  #134.0.10
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'byte',
+            'indom': 562036736},        #134.0
+    },
+    'lnet': {
+        'rx_bytes': {
+            'name': 'lustre.lnet.recv_length',
+            'pmid': 562037769,  #134.1.9
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'byte',
+            'indom': -1},
+        'rx_bytes_dropped': {
+            'name': 'lustre.lnet.drop_length',
+            'pmid': 562037771,  #134.1.11
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'byte',
+            'indom': -1},
+        'rx_msgs': {
+            'name': 'lustre.lnet.recv_count',
+            'pmid': 562037765,  #134.1.5
+            'type': 1,  #U32
+            'sem': 1,
+            'units': 'count',
+            'indom': -1},
+        'rx_msgs_dropped': {
+            'name': 'lustre.lnet.drop_count',
+            'pmid': 562037767,  #134.1.7
+            'type': 1,  #U32
+            'sem': 1,
+            'units': 'count',
+            'indom': -1},
+        'tx_bytes': {
+            'name': 'lustre.lnet.send_length',
+            'pmid': 562037768,  #134.1.8
+            'type': 3,  #U64
+            'sem': 1,
+            'units': 'byte',
+            'indom': -1},
+        'tx_msgs': {
+            'name': 'lustre.lnet.send_count',
+            'pmid': 562037764,  #134.1.4
+            'type': 1,  #U32
+            'sem': 1,
+            'units': 'count',
+            'indom': -1},
+    },
 }

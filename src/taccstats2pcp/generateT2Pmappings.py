@@ -23,10 +23,11 @@ import cpmapi as c_api
 
 # Get the generic mappings where we can query pcp for the metadata
 
-mappingfile = open('pcp_mapping.txt', 'r')
 
 context = pmapi.pmContext(c_api.PM_CONTEXT_HOST, "local:")
 
+"""
+mappingfile = open('pcp_mapping.txt', 'r')
 mapping = {}
 
 for line in mappingfile:
@@ -109,6 +110,8 @@ for type in sorted(mapping):
     print "\t},"
 
 # Grab the perfevent mappings where we give generated pmids and indoms
+
+"""
 
 perfmappingfile = open('tacc-pcp-map.txt', 'r')
 

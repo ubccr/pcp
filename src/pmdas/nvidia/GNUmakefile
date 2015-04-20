@@ -39,7 +39,7 @@ install:	default
 	$(INSTALL) -m 755 Install Remove $(PMDADIR)
 	$(INSTALL) -m 755 $(LIBTARGET) $(CMDTARGET) $(PMDADIR)
 	$(INSTALL) -m 644 $(DFILES) root help pmns domain.h $(PMDADIR)
-    $(INSTALL) -m 644 .NeedInstall $(PMDADIR)/.NeedInstall
+	$(INSTALL) -m 644 .NeedInstall $(PMDADIR)/.NeedInstall
 
 nvidia.o:	domain.h
 

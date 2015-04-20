@@ -46,6 +46,7 @@ install: default
 	$(INSTALL) -m 755 -d $(PMDADIR)
 	$(INSTALL) -m 644 domain.h help root pmns perfevent.conf $(PMDADIR)
 	$(INSTALL) -m 755 $(CMDTARGET) $(SCRIPTS) perfalloc $(PMDADIR)
+    $(INSTALL) -m 644 .NeedInstall $(PMDADIR)/.NeedInstall
 else
 build-me:
 install:

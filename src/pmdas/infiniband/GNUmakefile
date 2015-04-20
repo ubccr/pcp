@@ -42,6 +42,7 @@ install: default
 	$(INSTALL) -S $(PMDADIR) $(PCP_PMDAS_DIR)/$(IAM)
 	$(INSTALL) -m 755 Install Remove $(CMDTARGET) $(PMDADIR)
 	$(INSTALL) -m 644 pmns root help domain.h $(PMDADIR)
+    $(INSTALL) -m 644 .NeedInstall $(PMDADIR)/.NeedInstall
 	@$(INSTALL_MAN)
 else
 build-me:

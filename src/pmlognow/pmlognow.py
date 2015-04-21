@@ -5,7 +5,7 @@ from pcp import pmi
 import cpmapi as c_api
 from ctypes import c_char, c_int, c_uint, c_long, c_char_p, c_void_p
 
-import sys, math, datetime, getopt
+import sys, math, datetime, getopt, time, socket
 
 import pprint
 
@@ -13,13 +13,17 @@ import string
 
 
 use_config_file = 0
-hostname = "test"
-logname = "test"
+hostname = socket.getfqdn()
+nowtime = time.time()
+logname = datetime.datetime.fromtimestamp( nowtime ).strftime("%Y%m%d.%H.%M")
 
-usage = '%s [-n hostname] [-o outputname] [-c <logger config> | <list of metrics>]' % sys.argv[0]
+outdir = "./"
+prefix = ""
+
+usage = '%s [-s] [-p name_prefix] [-n hostname] [-o outputname] [-d outdir] [-c <logger config> | <list of metrics>]' % sys.argv[0]
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:],"hc:n:o:")
+    opts, args = getopt.getopt(sys.argv[1:],"shc:n:o:d:p:")
 except getopt.GetoptError:
     print usage
     sys.exit(2)
@@ -35,6 +39,14 @@ for opt, arg in opts:
         hostname = arg
     elif opt == '-o':
         logname = arg
+    elif opt == '-d':
+        outdir = arg
+    elif opt == '-s':
+        logname = datetime.datetime.fromtimestamp( nowtime ).strftime("%Y%m%d.%H.%M.%S")
+    elif opt == '-p':
+        prefix = arg
+
+logname = prefix + logname
 
 nameA = []
 
@@ -97,7 +109,9 @@ results = context.pmFetch(metric_ids)
 
 time = results.contents.timestamp
 
-log = pmi.pmiLogImport( logname )
+filelabel = outdir + "/" + logname
+
+log = pmi.pmiLogImport( filelabel )
 log.pmiSetHostname( hostname )
 
 # Only add instances once

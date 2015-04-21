@@ -103,6 +103,7 @@ OTHER_SUBDIRS = \
 	ganglia2pcp \
 	win32ctl \
 	pcp2graphite \
+	pmlognow \
 	#
 
 SUBDIRS = \

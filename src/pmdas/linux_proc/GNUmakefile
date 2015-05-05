@@ -23,7 +23,7 @@ CMDTARGET	= pmdaproc
 LIBTARGET	= pmda_proc.so
 PMDAINIT	= proc_init
 PMDADIR		= $(PCP_PMDAS_DIR)/$(IAM)
-CONF_LINE	= "proc	3	pipe	binary		$(PMDADIR)/$(CMDTARGET) -d 3"
+CONF_LINE	= "proc	3	pipe	binary		$(PMDADIR)/$(CMDTARGET) -A -d 3"
 
 CFILES		= pmda.c cgroups.c proc_pid.c proc_runq.c proc_dynamic.c\
 		  ksym.c getinfo.c contexts.c gram_node.c config.c error.c hotproc.c

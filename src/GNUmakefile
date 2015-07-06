@@ -99,6 +99,7 @@ OTHER_SUBDIRS = \
 	sheet2pcp \
 	ganglia2pcp \
 	win32ctl \
+	pmlognow \
 	#
 
 SUBDIRS = \

@@ -1,4 +1,17 @@
 #!/usr/bin/env python
+#
+# Copyright (c) 2015 Martins Innus.  All Rights Reserved.
+#
+# This program is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2 of the License, or (at your
+# option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+# for more details.
+#
 
 from pcp import pmapi
 from pcp import pmi
@@ -10,7 +23,6 @@ import sys, math, datetime, getopt, time, socket
 import pprint
 
 import string
-
 
 use_config_file = 0
 hostname = socket.getfqdn()
@@ -42,6 +54,7 @@ for opt, arg in opts:
     elif opt == '-d':
         outdir = arg
     elif opt == '-s':
+        # Add seconds into the date field
         logname = datetime.datetime.fromtimestamp( nowtime ).strftime("%Y%m%d.%H.%M.%S")
     elif opt == '-p':
         prefix = arg
@@ -76,35 +89,65 @@ except pmapi.pmErr as error:
     print "Couldn't get context"
     sys.exit(2)
 
+# Expand any nonleaf names
+leafNodes = []
+def getLeafNodes( leafnode ):
+    leafNodes.append( leafnode )
+
+for name in nameA:
+    try:
+        context.pmTraversePMNS( name, getLeafNodes )
+    except pmapi.pmErr as error:
+        # Just skip invalid names
+        pass
+
+nameA = leafNodes;
+
+# Remove duplicates
+nameA = list(set(nameA))
+
+# Get metric IDs
 try:
-    # Ignore missing and handle ourselves below
     metric_ids = context.pmLookupName(nameA, relaxed = 1)
 except pmapi.pmErr as error:
-    # Can get both types of returns, sent report to list
-    metric_ids = error[1]
+    # Probably can only exit here. Deal with the PM_ID_NULL case
+    # below, which should not end up here.
+    print "Unhandled pmLookupName exception\n"
+    sys.exit(2)
 
 
-# Can't get both the exception and the pmIDs back if some fail so we do the check ourselves
+# Check for unresolveable names, will have PM_ID_NULL as metric id
 badidx = [idx for idx, pmid in enumerate(metric_ids) if pmid == c_api.PM_ID_NULL]
 
+descs = []
+
 if len(badidx):
-    # Rebuild the ctypes array of pmids
-    num_good = len(nameA) - len(badidx)
-    num_copied = 0
-    pmidGOOD = (c_uint * num_good)()
+    pmidGOOD = []
     for i in range( len(nameA) ):
         if i not in badidx:
-            pmidGOOD[num_copied] = metric_ids[i]
-            num_copied += 1
+            # Also make sure we can get the desc before adding as a good metric
+            # Python API errors out as soon as one error is seen so can't check all at once
+            try:
+                desc = context.pmLookupDesc(metric_ids[i])
+                descs.append(desc)
+                pmidGOOD.append(metric_ids[i])
+            except pmapi.pmErr as error:
+                # Couldn't get the desc so just drop this metric
+                badidx.append(i)
+        else:
+            # Skip errors and dump this metric below
+            # We already handled nonleaf metrics above
+            pass
 
-    metric_ids = pmidGOOD
+    # Rebuild the list of metrics
+    # All should be good at this point
+    metric_ids = (c_uint * len(pmidGOOD))(*pmidGOOD)
 
-    # Remove from the list of metrics we know about
+    # Remove bad ones from the list of metrics we know about
     for idx in sorted(badidx, reverse=True):
         del nameA[idx]
 
-
-descs = context.pmLookupDescs(metric_ids)
+# Need to deal with errors with Fetch in some way
 results = context.pmFetch(metric_ids)
 
 time = results.contents.timestamp

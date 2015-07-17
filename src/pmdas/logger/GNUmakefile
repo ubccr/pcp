@@ -40,6 +40,7 @@ install:	default
 	$(INSTALL) -m 644 $(DFILES) root help pmns $(PMDADIR)
 	$(INSTALL) -m 644 domain.h $(PMDADIR)/domain.h
 	$(INSTALL) -m 755 $(CMDTARGET) $(PMDADIR)/$(CMDTARGET)
+	$(INSTALL) -m 644 .NeedInstall $(PMDADIR)/.NeedInstall
 
 logger.o: domain.h
 event.o logger.o: event.h

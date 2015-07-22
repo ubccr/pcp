@@ -164,6 +164,7 @@ inst_dict = {}
 for i in range(results.contents.numpmid):
     type = descs[i].contents.type
 
+    # Never use these really
     insts = []
     inames = []
 
@@ -172,7 +173,7 @@ for i in range(results.contents.numpmid):
     except pmapi.pmErr as error:
         if "PM_ERR_INDOM" in str(error):
             # Any better way to do this ?
-            # Just want to ignore if NULL indom
+            # Just want to figure out if this metric has an indom to use below
             #print >> sys.stderr, "No instance for %s" % nameA[i]
             pass
         else:
@@ -200,11 +201,29 @@ for i in range(results.contents.numpmid):
         # Is this the correct index, or do I need to look for results.contents.get_inst(i, j) in insts to get the index into iname
         # Seems to work
         if( len(insts)):
-            inst_key = "%s:%s" %(descs[i].contents.indom, inames[j])
+            try:
+                #inst_key = "%s:%s" %(descs[i].contents.indom, inames[j])
+                # Is this the right way to get the inst and iname for this metric instance ?
+                inst_id = results.contents.get_inst(i, j)
+                inst_name = context.pmNameInDom( descs[i], inst_id )
+                # Check to make sure we don't add the instance more than once across different metrics
+                # "indom:inst_name" should be unique
+                inst_key = "%s:%s" %(descs[i].contents.indom, inst_name)
+            except:
+                print "i,j: %d,%d\n" % (i,j)
+                print "len(descs): %d\n" % len(descs)
+                print "inst_index: %d\n" % inst_index
+                print "len(insts): %d\n" % len(insts)
+                print "len(inames): %d\n" % len(inames)
+                print "numval: %d\n" % results.contents.get_numval(i)
+                print "nameA[i]: %s\n" % nameA[i]
+                raise
+                
             if inst_key not in inst_dict:
-                log.pmiAddInstance(descs[i].contents.indom, inames[j], insts[j])
+                #log.pmiAddInstance(descs[i].contents.indom, inames[j], insts[j])
+                log.pmiAddInstance(descs[i].contents.indom, inst_name, inst_id)
                 inst_dict[inst_key] = 1
-            log.pmiPutValue( putname, inames[j], "%s" % val )
+            log.pmiPutValue( putname, inst_name, "%s" % val )
         else:
             log.pmiPutValue( putname, "", "%s" % val )
 

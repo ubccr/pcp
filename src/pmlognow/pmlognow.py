@@ -212,7 +212,7 @@ for i in range(results.contents.numpmid):
             except:
                 print "i,j: %d,%d\n" % (i,j)
                 print "len(descs): %d\n" % len(descs)
-                print "inst_index: %d\n" % inst_index
+                print "inst_id: %d\n" % inst_id
                 print "len(insts): %d\n" % len(insts)
                 print "len(inames): %d\n" % len(inames)
                 print "numval: %d\n" % results.contents.get_numval(i)

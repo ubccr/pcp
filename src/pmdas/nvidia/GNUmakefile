@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2014 Red Hat.
+# Copyright (c) 2014-2015 Red Hat.
 # 
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -41,7 +41,7 @@ install:	default
 	$(INSTALL) -m 644 $(DFILES) root help pmns domain.h $(PMDADIR)
 	$(INSTALL) -m 644 .NeedInstall $(PMDADIR)/.NeedInstall
 
-nvidia.o:	domain.h
+$(OBJECTS): domain.h
 
 domain.h: ../../pmns/stdpmid
 	$(DOMAIN_MAKERULE)

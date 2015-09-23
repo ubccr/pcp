@@ -21,7 +21,7 @@
 # Additional Information:
 #
 # Performance Co-Pilot Web Site
-# http://www.performancecopilot.org
+# http://www.pcp.io
 #
 # Performance Co-Pilot Programmer's Guide
 # cf. Chapter 3. PMAPI - The Performance Metrics API
@@ -938,17 +938,20 @@ class pmOptions(object):
     def pmGetOptionArchives(self):	# str list
         return c_api.pmGetOptionArchives()
 
-    def pmGetOptionAlignment(self):		# timeval
-        sec = c_api.pmGetOptionAlignment_sec()
-        if sec == None:
+    def pmGetOptionAlignment(self):	# timeval
+        alignment = c_api.pmGetOptionAlign_optarg()
+        if alignment == None:
             return None
-        return timeval(sec, c_api.pmGetOptionAlignment_sec())
+        return timeval.fromInterval(alignment)
 
     def pmGetOptionStart(self):		# timeval
         sec = c_api.pmGetOptionStart_sec()
         if sec == None:
             return None
         return timeval(sec, c_api.pmGetOptionStart_usec())
+
+    def pmGetOptionAlignOptarg(self):	# string
+        return c_api.pmGetOptionAlign_optarg()
 
     def pmGetOptionFinishOptarg(self):	# string
         return c_api.pmGetOptionFinish_optarg()
@@ -1042,7 +1045,7 @@ class pmContext(object):
         self._type = typed                              # the context type
         self._target = target                            # the context target
         self._ctx = c_api.PM_ERR_NOCONTEXT                # init'd pre-connect
-        if type(target) != type(b''):
+        if target and type(target) != type(b''):
             source = target.encode('utf-8')
         else:
             source = target

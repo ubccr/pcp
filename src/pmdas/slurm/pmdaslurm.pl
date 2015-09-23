@@ -17,8 +17,13 @@ use strict;
 use warnings;
 
 use PCP::PMDA;
+use Net::Domain qw( hostname );
+
 use Slurm;
-use Sys::Hostname;
+use Slurm::Hostlist;
+
+use threads;
+use threads::shared;
 
 use vars qw( $pmda $slurm );
 
@@ -33,20 +38,33 @@ my $NODE_CLUSTER = 3;
 my $USER_CLUSTER = 4;
 my $PARTITION_CLUSTER = 5;
 
-# hashes for the different indoms
+# Slurm parameters we actually care about
+# Order matches the metric item number to make the fetch logic easier
+# Names match the struct entries in slurm.h:job_info
 
-our %jobs = ();
-our %nodejobs = ();
-our %users = ();
-our %nodes = ();
-our $numnodes = 0;
+my @slurm_job_stats = ( "FILLER_FOR_NUM_JOBS", "job_id", "name", "job_state", "user_id", "batch_host", "submit_time", "start_time", "end_time", "features", "gres", "nodes", "num_nodes", "num_cpus", "ntasks_per_node", "work_dir" );
+
+#
+# Shared Variables between slurm gather thread and main pmda thread
+#
+# Will lock on the variable we want to use.
+
+our %nodejobs :shared = ();
+our $numnodes :shared = 0;
+
+#
+# End Shared Variables
+#
+
+#
+# Subs for the slurm polling thread
+#
 
 # Who am i. To check for jobs in this host
 our $host = hostname;
 
-# Array ref for all jobs
-our $all_jobs_ref;
-
+# Don't need to share these.  Only used in the slurm thread
+my $jobs_update_time = 0;
 sub slurm_init {
    $slurm = Slurm::new();
 }
@@ -54,64 +72,98 @@ sub slurm_init {
 # Update General Stuff
 sub slurm_update_cluster_gen {
 
+    # This could take a while
+    # Returns a hash ref that mirrors : node_info_msg_t from slurm.h
     my $nodemsg = $slurm->load_node();
 
     unless($nodemsg) {
-        die "failed to load node info: " . $slurm->strerror();
+        # This can fail if the slurm controller has not come up yet
+        # No good way to figure out if this is just a delay or fatal error
+        # So just log it and try again later
+        warn "Failed to load node info: " . $slurm->strerror();
+        return;
     }
 
     my @nodes = @{ $nodemsg->{node_array} };
 
-    $numnodes = @nodes;
-
-}
-
-sub slurm_update_jobs {
-
-    # TODO: use the time so we only update on changes
-    my $jobmsg = $slurm->load_jobs(0, 0);
-
-    $all_jobs_ref = \@{ $jobmsg->{job_array} };
-
-    %jobs = ();
-    
-    for my $job ( @$all_jobs_ref ){
-        my $jid = $job->{job_id};
-        $jobs{$jid} = $job;
+    {
+        lock($numnodes);
+        $numnodes = @nodes;
     }
+
 }
 
-# Update jobs specific to this node
-sub slurm_update_cluster_node_job {
+# Update job information for this node
+sub slurm_update_cluster_jobs {
 
-    # Populate the all jobs reference
-    &slurm_update_jobs;
+    # Use the time so we only update on changes
+    #
+    # This could take a while
+    # Returns a hash ref where the main element we care about is the job_array array
+    my $jobmsg = $slurm->load_jobs($jobs_update_time, 0);
+
+    unless($jobmsg) {
+        # This can fail if the slurm controller has not come up yet
+        # Or if there is no state change from the previous try.
+        # If there is no state change, the main thread will just use existing data.
+        # No good way to figure this out
+        # So just try again later
+        return;
+    }
+
+    # Grab the update time to use for the next query
+    $jobs_update_time = $jobmsg->{last_update};
 
     %nodejobs = ();
 
-    # Find all jobs where I am a member
-    for my $job ( @$all_jobs_ref ){
-        my $nodelist = $job->{nodes};
-        my $jid = $job->{job_id};
-    
-        if ( !(defined $nodelist and length $nodelist) ){
-            # We only care about jobs that are running
-            next;
-        }
-    
-        my $hostlist = Slurm::Hostlist::create( $nodelist );
-        my $num_hosts = $hostlist->count();
-    
-        if ( $num_hosts > 0){
-            my $mypos = $hostlist->find("k05n28");
-            #my $mypos = $hostlist->find($host);
-            if( $mypos >= 0){
-                # We only want jobs that are on this host
-                $nodejobs{$jid} = $job;
+    {
+        lock(%nodejobs);
+
+        for my $job ( @{ $jobmsg->{job_array} } ){
+
+            my $jid = $job->{job_id};
+            my $nodelist = $job->{nodes};
+
+            if( $nodelist){
+
+                my $hostlist = Slurm::Hostlist::create( $nodelist );
+                my $num_hosts = $hostlist->count();
+            
+                if ( $num_hosts > 0){
+                    my $mypos = $hostlist->find($host);
+                    if( $mypos >= 0){
+                        # We only want jobs that are on this host
+                        if ( Slurm::IS_JOB_RUNNING($job) ){
+                            # And Running
+                       
+                            # Ugh, shared perl hashes
+                            $nodejobs{$jid} = &share( {} );
+                            while ( my ($key, $value) = each(%$job)){
+                                # Only grab the things we really want, to keep memory down
+                                if ( grep{$_ eq $key} @slurm_job_stats ){
+                                    $nodejobs{$jid}{$key} = $value;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
+    } # unlock %nodejobs
+}
+
+# slurm fetch worker thread
+sub poll_slurm {
+    while (1){
+        slurm_update_cluster_gen();
+        slurm_update_cluster_jobs();
+        sleep 9;
     }
 }
+
+#
+# Subs for the main thread
+#
 
 #
 # fetch is called once by pcp for each refresh and then the fetch callback is
@@ -119,117 +171,53 @@ sub slurm_update_cluster_node_job {
 #
 sub slurm_fetch {
 
-        # Make these dependent on what we want?
-
-	slurm_update_cluster_gen();
-        slurm_update_cluster_node_job();
-
-	#$pmda->replace_indom($node_job_indom, \%nodejobs);
-
         my @nodejobs_array;
 
-        # Create a key, "key" array so we can control the inst ids
-        while ( my ($key, $val) = each %nodejobs){
-            push( @nodejobs_array, $key );
-            push( @nodejobs_array, "$key" );
-        }
+        {
+            lock(%nodejobs);
+
+            # Create a [key1, "key1", key2, "key2", .....] array so we can control the inst ids
+            while ( my ($key, $val) = each %nodejobs){
+                push( @nodejobs_array, $key );
+                push( @nodejobs_array, "$key" );
+            }
+        } # unlock %nodejobs
 
         $pmda->replace_indom($node_job_indom, \@nodejobs_array);
-	#$pmda->replace_indom($job_indom, \%jobs);
 }
 
 sub slurm_fetch_node_job_callback {
     my ($item, $inst) = @_;
 
     if ( $item == 0 ){
-        my $numjobs = keys %nodejobs;
+        my $numjobs;
+        {
+            lock(%nodejobs);
+            $numjobs = keys %nodejobs;
+        }
         return ($numjobs, 1);
     }
 
     my $lookup;
-    if( !exists $nodejobs{$inst} ){
-        return (PM_ERR_INST, 0);
-    }
-    else {
-        $lookup = $nodejobs{$inst};
+    {
+        lock(%nodejobs);
+        # Will unlock on scope loss, return or otherwise
+        if( !exists $nodejobs{$inst} ){
+            return (PM_ERR_INST, 0);
+        }
+        else {
+            $lookup = $nodejobs{$inst};
+        }
     }
 
-    if ( $item == 1 ){
-        # slurm.node.job.id
-        my $rv = $lookup->{job_id};
-        return ($rv, 1);
-    }
-    elsif ( $item == 2 ){
-        # slurm.node.job.name
-        my $rv = $lookup->{name};
-        return ($rv, 1);
-    }
-    elsif ( $item == 3 ){
+    if ( $item == 3 ){
         # slurm.node.job.state
-        # List all jobs as running for now.  Not sure of the timing issues for starting or ending jobs
+        # List all jobs as running since those are the only jobs we grabbed
         return ("running", 1);
     }
-    elsif ( $item == 4 ){
-        # slurm.node.job.user_id
-        my $rv = $lookup->{user_id};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 5 ){
-        # slurm.node.job.batch_host
-        my $rv = $lookup->{batch_host};
+    elsif ( $item < scalar @slurm_job_stats ){
+        my $rv = $lookup->{ $slurm_job_stats[$item] };
         $rv = "" if !defined $rv;
-        return ( $rv, 1);
-    }
-    elsif ( $item == 6 ){
-        # slurm.node.job.submit_time
-        my $rv = $lookup->{submit_time};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 7 ){
-        # slurm.node.job.start_time
-        my $rv = $lookup->{start_time};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 8 ){
-        # slurm.node.job.end_time
-        my $rv = $lookup->{end_time};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 9 ){
-        # slurm.node.job.features
-        my $rv = $lookup->{features};
-        $rv = "" if !defined $rv;
-        return ( $rv, 1);
-    }
-    elsif ( $item == 10 ){
-        # slurm.node.job.gres
-        my $rv = $lookup->{gres};
-        $rv = "" if !defined $rv;
-        return ( $rv, 1);
-    }
-    elsif ( $item == 11 ){
-        # slurm.node.job.nodes
-        my $rv = $lookup->{nodes};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 12 ){
-        # slurm.node.job.num_nodes
-        my $rv = $lookup->{num_nodes};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 13 ){
-        # 'slurm.node.job.num_cpus
-        my $rv = $lookup->{num_cpus};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 14 ){
-        # slurm.node.job.ntasks_per_node
-        my $rv = $lookup->{ntasks_per_node};
-        return ( $rv, 1);
-    }
-    elsif ( $item == 15 ){
-        # slurm.node.job.work_dir
-        my $rv = $lookup->{work_dir};
         return ( $rv, 1);
     }
     else{
@@ -385,12 +373,15 @@ $pmda->add_metric(pmda_pmid($NODE_JOB_CLUSTER,15), PM_TYPE_STRING, $node_job_ind
 
 &slurm_init;
 
-&slurm_update_cluster_gen;
-&slurm_update_cluster_node_job;
+# Thread that queries the slurm state.
+#
+# Slurm calls can block for a while so need a seperate thread
+# so pmcd doesn't kill us if fetch's take too long.
+
+my $slurm_thread = threads->create(\&poll_slurm);
+$slurm_thread->detach();
 
 $node_job_indom = $pmda->add_indom($node_job_indom, [], '', '');
-#$node_job_indom = $pmda->add_indom($node_job_indom, [0=>'0'], '', '');
-#$job_indom = $pmda->add_indom($job_indom, {}, '', '');
 
 $pmda->set_fetch(\&slurm_fetch);
 $pmda->set_fetch_callback(\&slurm_fetch_callback);

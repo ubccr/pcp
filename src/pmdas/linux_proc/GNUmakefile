@@ -23,7 +23,7 @@ CMDTARGET	= pmdaproc
 LIBTARGET	= pmda_proc.so
 PMDAINIT	= proc_init
 PMDADIR		= $(PCP_PMDAS_DIR)/$(IAM)
-CONF_LINE	= "proc	3	pipe	binary		$(PMDADIR)/$(CMDTARGET) -d 3"
+CONF_LINE	= "proc	3	pipe	binary		$(PMDADIR)/$(CMDTARGET) -A -d 3"
 
 CFILES		= pmda.c cgroups.c proc_pid.c proc_runq.c proc_dynamic.c\
 		  ksym.c getinfo.c contexts.c gram_node.c config.c error.c hotproc.c
@@ -66,7 +66,8 @@ build-me: root_proc $(LIBTARGET) $(CMDTARGET) $(HELPTARGETS) $(LOGREWRITERS)
 
 install: default
 	$(INSTALL) -m 755 -d $(PMDADIR)
-	$(INSTALL) -m 644 domain.h help help.dir help.pag root root_proc samplehotproc.conf $(PMDADIR)
+	$(INSTALL) -m 644 domain.h help help.dir help.pag root root_proc samplehotproc.conf hotproc.conf $(PMDADIR)
+	$(INSTALL) -m 644 .NeedInstall $(PMDADIR)/.NeedInstall
 	$(INSTALL) -m 755 $(LIBTARGET) $(CMDTARGET) $(SCRIPTS) $(PMDADIR)
 	$(INSTALL) -m 644 root_proc $(PCP_VAR_DIR)/pmns/root_proc
 	$(INSTALL) -m 644 $(LOGREWRITERS) $(PCP_VAR_DIR)/config/pmlogrewrite

@@ -29,6 +29,7 @@
 [\f3\-L\f1]
 [\f3\-N\f1]
 [\f3\-G\f1]
+[\f3\-X\f1]
 [\f3\-i\f1 \f2min-interval\f1]
 [\f3\-I\f1
 [\f3\-K\f1 \f2spec\f1]
@@ -96,6 +97,10 @@ your web browser to
 .nh
 .B http://127.0.0.1:43323/
 .hy
+.TP
+\f3\-X\f1
+Disable encoding of common characters for metric names.  Newer graphite
+and grafana support a larger set af characters in metric names.
 .TP
 \f3\-i\f1 \f2min-interval\f1
 Set the minimum sampling interval for graphite time series in seconds.

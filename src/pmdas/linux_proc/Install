@@ -24,6 +24,7 @@ daemon_opt=true
 pipe_opt=true
 pmns_source=root_proc
 pmns_dupok=true
+args=-A
 
 pmdaSetup
 pmdaInstall

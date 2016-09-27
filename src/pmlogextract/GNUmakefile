@@ -20,20 +20,23 @@ HFILES	= logger.h
 LFILES  = lex.l
 YFILES	= gram.y
 
-CMDTARGET = pmlogextract$(EXECSUFFIX)
 
-LLDLIBS	= $(PCPLIB) $(LIB_FOR_MATH) $(LIB_FOR_PTHREADS)
-LDIRT	= $(YFILES:%.y=%.tab.?)
+STATICLIBTARGET = libpcp_pmlogextract.a
+DSOVERSION = 1
+LIBTARGET = libpcp_pmlogextract.$(DSOSUFFIX).$(DSOVERSION)
+SYMTARGET = libpcp_pmlogextract.$(DSOSUFFIX)
 
-default:	$(CMDTARGET)
+LCFLAGS = -I.
+LLDLIBS = -lpcp
+
+default: $(LIBTARGET)
 
 include $(BUILDRULES)
 
-pmlogextract:	$(OBJECTS)
+default_pcp: default
 
-install:	$(CMDTARGET)
-	$(INSTALL) -m 755 $(CMDTARGET) $(PCP_BIN_DIR)/$(CMDTARGET)
-	$(INSTALL) -S $(PCP_BIN_DIR)/$(CMDTARGET) $(PCP_BINADM_DIR)/$(CMDTARGET)
+#LLDLIBS	= $(PCPLIB) $(LIB_FOR_MATH) $(LIB_FOR_PTHREADS)
+#LDIRT	= $(YFILES:%.y=%.tab.?)
 
 .NOTPARALLEL:
 gram.tab.h gram.tab.c:	gram.y

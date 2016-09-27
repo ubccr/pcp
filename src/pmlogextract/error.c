@@ -34,5 +34,5 @@ yyerror(char *s)
     fprintf(stderr, "Specification error in configuration file (%s)\n",
 	    configfile);
     fprintf(stderr, "[line %d] %s\n", lineno, s);
-    exit(1);
+    
 }

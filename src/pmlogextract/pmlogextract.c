@@ -1504,11 +1504,11 @@ parseconfig(void)
     if ((yyin = fopen(configfile, "r")) == NULL) {
 	fprintf(stderr, "%s: Cannot open config file \"%s\": %s\n",
 		pmProgname, configfile, osstrerror());
-	exit(1);
+	return 1;
     }
 
     if (yyparse() != 0)
-	exit(1);
+	return 1;
 
     fclose(yyin);
     yyin = NULL;
@@ -1783,7 +1783,7 @@ writemark(inarch_t *iap)
 /*--- END FUNCTIONS ---------------------------------------------------------*/
 
 int
-main(int argc, char **argv)
+mainFunc(int argc, char **argv)
 {
     int		i;
     int		j;
@@ -1814,7 +1814,7 @@ main(int argc, char **argv)
     /* process cmd line args */
     if (parseargs(argc, argv) < 0) {
 	pmUsageMessage(&opts);
-	exit(1);
+	return 1;
     }
 
 
@@ -1830,7 +1830,7 @@ main(int argc, char **argv)
     if (inarch == NULL) {
 	fprintf(stderr, "%s: Error: mallco inarch: %s\n",
 		pmProgname, osstrerror());
-	exit(1);
+	return 1;
     }
 #ifdef PCP_DEBUG
     if (pmDebug & DBG_TRACE_APPL0) {
@@ -1855,18 +1855,18 @@ main(int argc, char **argv)
 	if ((iap->ctx = pmNewContext(PM_CONTEXT_ARCHIVE, iap->name)) < 0) {
 	    fprintf(stderr, "%s: Error: cannot open archive \"%s\": %s\n",
 		    pmProgname, iap->name, pmErrStr(iap->ctx));
-	    exit(1);
+	    return 1;
 	}
 
 	if ((sts = pmUseContext(iap->ctx)) < 0) {
 	    fprintf(stderr, "%s: Error: cannot use context (%s): %s\n",
 		    pmProgname, iap->name, pmErrStr(sts));
-	    exit(1);
+	    return 1;
 	}
 
 	if ((sts = pmGetArchiveLabel(&iap->label)) < 0) {
 	    fprintf(stderr, "%s: Error: cannot get archive label record (%s): %s\n", pmProgname, iap->name, pmErrStr(sts));
-	    exit(1);
+	    return 1;
 	}
 
 	if ((sts = pmGetArchiveEnd(&unused)) < 0) {
@@ -1877,7 +1877,7 @@ main(int argc, char **argv)
 		unused.tv_usec = 0;
 	    }
 	    else
-		exit(1);
+		return 1;
 	}
 
 	if (i == 0) {
@@ -1915,7 +1915,7 @@ main(int argc, char **argv)
      *	- this includes a list of metrics and their instances
      */
     if (configfile && parseconfig() < 0)
-	exit(1);
+        return 1;
 
     if (zarg) {
 	/* use TZ from metrics source (input-archive) */
@@ -1954,7 +1954,7 @@ main(int argc, char **argv)
     if ((sts = __pmLogCreate("", outarchname, outarchvers, &logctl)) < 0) {
 	fprintf(stderr, "%s: Error: __pmLogCreate: %s\n",
 		pmProgname, pmErrStr(sts));
-	exit(1);
+	return 1;
     }
 
     /* This must be done after log is created:
@@ -2180,5 +2180,5 @@ cleanup:
     }
 #endif
 
-    exit(exit_status);
+    return exit_status;
 }

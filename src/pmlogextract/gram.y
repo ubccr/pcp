@@ -76,7 +76,6 @@ metricspec	: NAME { name = strdup($1); numinst = 0; } optinst
 				    "%s: Error: cannot use context (%d) "
 				    "from archive \"%s\"\n", 
 				    pmProgname, inarch[i].ctx, inarch[i].name);
-				exit(1);
 			    }
 
 			    if ((sts = pmTraversePMNS (name, dometric)) >= 0) {

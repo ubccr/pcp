@@ -12,7 +12,7 @@ cdef char ** to_cstring_array(list_str):
 
 def pypmlogextract(args):
 
-    cdef void *handle = pypmlogextract.dlopen("./libpcp_pmlogextract.so.1",RTLD_LAZY)
+    cdef void *handle = pypmlogextract.dlopen("libpcp_pmlogextract.so.1",RTLD_LAZY)
     
     if handle == NULL:
         print pypmlogextract.dlerror()

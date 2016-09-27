@@ -2173,12 +2173,22 @@ cleanup:
 
 	/* need to fix up label with new start-time */
 	writelabel_metati(1);
+
+        /* Don't leak descriptors */
+        __pmLogClose(&logctl);
     }
 #ifdef PCP_DEBUG
     if (pmDebug & DBG_TRACE_APPL0) {
         fprintf(stderr, "main        : total allocated %ld\n", totalmalloc);
     }
 #endif
+
+    
+    /* Don't leak descriptors */
+    for (i=0; i<inarchnum; i++) {
+	iap = &inarch[i];
+        pmDestroyContext(iap->ctx);
+    }
 
     return exit_status;
 }

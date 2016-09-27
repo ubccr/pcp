@@ -2147,7 +2147,7 @@ mainFunc(int argc, char **argv)
         fprintf(stderr, "%s: Warning: no qualifying records found.\n",
                 pmProgname);
 cleanup:
-	abandon_extract();
+	return 1;
     }
     else {
 	/* write the last time stamp */

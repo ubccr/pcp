@@ -1855,18 +1855,22 @@ mainFunc(int argc, char **argv)
 	if ((iap->ctx = pmNewContext(PM_CONTEXT_ARCHIVE, iap->name)) < 0) {
 	    fprintf(stderr, "%s: Error: cannot open archive \"%s\": %s\n",
 		    pmProgname, iap->name, pmErrStr(iap->ctx));
-	    return 1;
+            exit_status = 1;
+            goto cleanup;
 	}
 
 	if ((sts = pmUseContext(iap->ctx)) < 0) {
 	    fprintf(stderr, "%s: Error: cannot use context (%s): %s\n",
 		    pmProgname, iap->name, pmErrStr(sts));
-	    return 1;
+            exit_status = 1;
+            goto cleanup;
+
 	}
 
 	if ((sts = pmGetArchiveLabel(&iap->label)) < 0) {
 	    fprintf(stderr, "%s: Error: cannot get archive label record (%s): %s\n", pmProgname, iap->name, pmErrStr(sts));
-	    return 1;
+            exit_status = 1;
+            goto cleanup;
 	}
 
 	if ((sts = pmGetArchiveEnd(&unused)) < 0) {
@@ -1876,8 +1880,10 @@ mainFunc(int argc, char **argv)
 		unused.tv_sec = INT_MAX;
 		unused.tv_usec = 0;
 	    }
-	    else
-		return 1;
+	    else{
+                exit_status = 1;
+                goto cleanup;
+            }
 	}
 
 	if (i == 0) {
@@ -1914,8 +1920,10 @@ mainFunc(int argc, char **argv)
     /* process config file
      *	- this includes a list of metrics and their instances
      */
-    if (configfile && parseconfig() < 0)
-        return 1;
+    if (configfile && parseconfig() < 0){
+            exit_status = 1;
+            goto cleanup;
+    }
 
     if (zarg) {
 	/* use TZ from metrics source (input-archive) */
@@ -1954,7 +1962,8 @@ mainFunc(int argc, char **argv)
     if ((sts = __pmLogCreate("", outarchname, outarchvers, &logctl)) < 0) {
 	fprintf(stderr, "%s: Error: __pmLogCreate: %s\n",
 		pmProgname, pmErrStr(sts));
-	return 1;
+            exit_status = 1;
+            goto cleanup;
     }
 
     /* This must be done after log is created:
@@ -1974,7 +1983,8 @@ mainFunc(int argc, char **argv)
     if (sts < 0) {
 	fprintf(stderr, "%s: Invalid time window specified: %s\n",
 		pmProgname, msg);
-	abandon_extract();
+            exit_status = 1;
+            goto cleanup;
     }
     winstart.tv_sec = winstart_tval.tv_sec;
     winstart.tv_usec = winstart_tval.tv_usec;
@@ -2082,7 +2092,8 @@ mainFunc(int argc, char **argv)
 	if (ilog < 0 || ilog >= inarchnum) {
 	    fprintf(stderr, "%s: Fatal Error!\n", pmProgname);
 	    fprintf(stderr, "    log file index = %d\n", ilog);
-	    abandon_extract();
+            exit_status = 1;
+            goto cleanup;
 	}
 
 
@@ -2095,7 +2106,8 @@ mainFunc(int argc, char **argv)
 	    if (iap->_Nresult == NULL) {
 		fprintf(stderr, "%s: Fatal Error!\n", pmProgname);
 		fprintf(stderr, "    pick == LOG and _Nresult = NULL\n");
-		abandon_extract();
+            exit_status = 1;
+            goto cleanup;
 	    }
 	    insertresult(&rlready, iap->_Nresult);
 #if 0
@@ -2146,8 +2158,8 @@ mainFunc(int argc, char **argv)
     if (first_datarec) {
         fprintf(stderr, "%s: Warning: no qualifying records found.\n",
                 pmProgname);
-cleanup:
-	return 1;
+	    exit_status = 1;
+	    goto cleanup;
     }
     else {
 	/* write the last time stamp */
@@ -2175,7 +2187,7 @@ cleanup:
 	writelabel_metati(1);
 
         /* Don't leak descriptors */
-        __pmLogClose(&logctl);
+        /* __pmLogClose(&logctl); */
     }
 #ifdef PCP_DEBUG
     if (pmDebug & DBG_TRACE_APPL0) {
@@ -2183,8 +2195,10 @@ cleanup:
     }
 #endif
 
+cleanup:
     
     /* Don't leak descriptors */
+    __pmLogClose(&logctl);
     for (i=0; i<inarchnum; i++) {
 	iap = &inarch[i];
         pmDestroyContext(iap->ctx);

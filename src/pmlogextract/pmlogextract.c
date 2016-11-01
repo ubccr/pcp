@@ -19,9 +19,12 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include <setjmp.h>
 #include "pmapi.h"
 #include "impl.h"
 #include "logger.h"
+
+jmp_buf jumpbuffer;
 
 #ifdef PCP_DEBUG
 long totalmalloc;
@@ -362,7 +365,9 @@ abandon_extract(void)
 	snprintf(fname, sizeof(fname), "%s.index", outarchname);
 	unlink(fname);
     }
-    exit(1);
+    /*exit(1);*/
+    /* Try to return cleanly */
+    longjmp(jumpbuffer,1);
 }
 
 
@@ -1840,6 +1845,11 @@ mainFunc(int argc, char **argv)
     }
 #endif
 
+    /* Try to catch any fatal errors and just return */
+    if (setjmp(jumpbuffer)){
+        exit_status = 1;
+        goto cleanup;
+    }
 
     for (i=0; i<inarchnum; i++, opts.optind++) {
 	iap = &inarch[i];

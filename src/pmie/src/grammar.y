@@ -139,6 +139,7 @@ gramerr(char *phrase, char *pos, char *op)
 %left  ALL_QUANT SOME_QUANT PCNT_QUANT
 %left  MATCH NOMATCH
 %left  '>' '<' EQ_REL NEQ_REL GEQ_REL LEQ_REL
+%left  '~'
 %left  '+' '-'
 %left  '*' '/'
 %left  UMINUS RATE INSTANT
@@ -405,6 +406,8 @@ rexp	: pexp EQ_REL pexp
 		{   $$ = relExpr(CND_EQ, $1, $3); }
 	| pexp NEQ_REL pexp
 		{   $$ = relExpr(CND_NEQ, $1, $3); }
+	| pexp '~' pexp
+		{   $$ = relExpr(CND_REGEX_STR, $1, $3); }
 	| aexp '<' aexp
 		{   $$ = relExpr(CND_LT, $1, $3); }
 	| aexp '>' aexp

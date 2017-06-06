@@ -257,6 +257,7 @@ typedef int Op;
 #define CND_EQ_STR	62
 #define CND_NEQ		31
 #define CND_NEQ_STR	63
+#define CND_REGEX_STR	64
 #define CND_LT		32
 #define CND_LTE		33
 #define CND_GT		34

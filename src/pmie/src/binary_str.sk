@@ -50,7 +50,8 @@ void
 	for (i = 0; i < n; i++) {
 	    cp1 = getStringValue(arg1, i);
 	    cp2 = getStringValue(arg2, i);
-	    *op++ = cp1 != NULL && cp2 != NULL && OP(strcmp(cp1, cp2) == 0);
+	    @LOOPEACH
+	    *op++ = cp1 != NULL && cp2 != NULL && OP(cp1, cp2);
 	}
 	os->stamp = (is1->stamp > is2->stamp) ? is1->stamp : is2->stamp;
 	x->valid++;
@@ -89,7 +90,8 @@ void
 	n = x->tspan;
 	for (i = 0; i < n; i++) {
 	    cp1 = getStringValue(arg1, i);
-	    *op++ = cp1 != NULL && cp2 != NULL && OP(strcmp(cp1, cp2) == 0);
+	    @LOOPEACH
+	    *op++ = cp1 != NULL && cp2 != NULL && OP(cp1, cp2);
 	}
 	os->stamp = (is1->stamp > is2->stamp) ? is1->stamp : is2->stamp;
 	x->valid++;
@@ -128,7 +130,8 @@ void
 	n = x->tspan;
 	for (i = 0; i < n; i++) {
 	    cp2 = getStringValue(arg2, i);
-	    *op++ = cp1 != NULL && cp2 != NULL && OP(strcmp(cp1, cp2) == 0);
+	    @LOOPEACH
+	    *op++ = cp1 != NULL && cp2 != NULL && OP(cp1, cp2);
 	}
 	os->stamp = (is1->stamp > is2->stamp) ? is1->stamp : is2->stamp;
 	x->valid++;
@@ -163,7 +166,8 @@ void
 	op = (Boolean *)os->ptr;
 	cp1 = getStringValue(arg1, 0);
 	cp2 = getStringValue(arg2, 0);
-	*op = cp1 != NULL && cp2 != NULL && OP(strcmp(cp1, cp2) == 0);
+	@LOOPEACH
+	*op = cp1 != NULL && cp2 != NULL && OP(cp1, cp2);
 	os->stamp = (is1->stamp > is2->stamp) ? is1->stamp : is2->stamp;
 	x->valid++;
     }

@@ -68,6 +68,7 @@ static struct {
 	{ CND_EQ_STR,	"==<str>" },
 	{ CND_NEQ,	"!=" },
 	{ CND_NEQ_STR,	"!=<str>" },
+	{ CND_REGEX_STR,	"~<str>" },
 	{ CND_LT,	"<" },
 	{ CND_LTE,	"<=" },
 	{ CND_GT,	">" },

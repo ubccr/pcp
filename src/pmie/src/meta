@@ -84,6 +84,7 @@ sed -e "$CULLCOPYRIGHT" \
     -e "s/@FUN/$fun/g" \
     -e "s/@ITYPE/$itype/g" \
     -e "s/@OP/$op/g" \
+    -e "s/@LOOPEACH/$loopeach/g" \
     $fin >> $fout
 }
 
@@ -217,7 +218,8 @@ op="OP(x,y) ((x) == (y))"
 _binary
 
 fun=cndEqStr
-op="OP(x) (x)"
+loopeach="(void)0;"
+op="OP(x,y) (strcmp((x), (y)) == 0)"
 _binary_str
 
 fun=cndNeq
@@ -225,7 +227,13 @@ op="OP(x,y) ((x) != (y))"
 _binary
 
 fun=cndNeqStr
-op="OP(x) !(x)"
+loopeach="(void)0;"
+op="OP(x,y) (strcmp((x), (y)) != 0)"
+_binary_str
+
+fun=cndRegExStr
+loopeach="regex_t regex;"
+op="OP(x,y) (!regcomp(\&regex, (y), 0) \&\& !regexec(\&regex, (x), 0, NULL, 0))"
 _binary_str
 
 fun=cndLt

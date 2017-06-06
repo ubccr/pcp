@@ -671,6 +671,21 @@ findEval(Expr *x)
 	}
 	break;
 
+    case CND_REGEX_STR:
+	if (arity & 1) {
+	    if (arity & 2)
+		x->eval = cndRegExStr_1_1;
+	    else
+		x->eval = cndRegExStr_1_n;
+	}
+	else {
+	    if (arity & 2)
+		x->eval = cndRegExStr_n_1;
+	    else
+		x->eval = cndRegExStr_n_n;
+	}
+	break;
+
     case CND_LT:
 	if (arity & 1) {
 	    if (arity & 2)

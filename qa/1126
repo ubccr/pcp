@@ -1,0 +1,59 @@
+#!/bin/sh
+# PCP QA Test No. 1126
+# Test omnipath pmda
+#
+# Copyright (c) 2017 Martins Innus.  All Rights Reserved.
+#
+
+seq=`basename $0`
+echo "QA output created by $seq"
+
+# get standard environment, filters and checks
+. ./common.product
+. ./common.filter
+. ./common.check
+
+[ -d $PCP_PMDAS_DIR/omnipath ] || _notrun "omnipath PMDA directory is not installed"
+
+status=1
+perl -e "use PCP::PMDA" >/dev/null 2>&1
+[ $? -eq 0 ] || _notrun "perl PCP::PMDA module not installed"
+
+trap "rm -f $tmp.*; exit \$status" 0 1 2 3 15
+
+_filter()
+{
+    sed \
+        -e "s;$PCP_PMDAS_DIR;\$PCP_PMDAS_DIR;" \
+        -e "s;$script;pmdaomnipath.pl;" \
+    | _filter_dumpresult
+}
+
+# real QA test starts here
+domain=145
+script=pmdaomnipath.pl
+cd "$PCP_PMDAS_DIR/omnipath"
+
+# create a root namespace file for dbpmda to use
+export OPAPMAQUERY_CMD="cat $here/omnipath/opapmaquery.txt"
+PCP_PERL_PMNS=root /usr/bin/env perl $script > $tmp.root
+
+# create a set of commands for dbpmda
+cat >$tmp.cmds <<End-of-File
+open pipe /usr/bin/env perl $script
+getdesc on
+desc omnipath.port
+desc omnipath.xmit.bytes
+desc omnipath.rcv.flits
+fetch omnipath.port
+fetch omnipath.xmit.bytes
+fetch omnipath.rcv.flits
+instance $domain.0
+End-of-File
+
+# iterate over our pre-canned omnipath files
+echo === Testing precanned omnipath files
+$sudo TERM=ansi dbpmda -n $tmp.root -ie < $tmp.cmds 2>&1 | _filter
+
+status=0
+exit

@@ -1,0 +1,37 @@
+Port Number             1
+    VL Select Mask      0x00000000
+    Performance: Transmit
+        Xmit Data                               32 MB (4118232 Flits)
+        Xmit Pkts                            66696
+        MC Xmt Pkts                             0
+    Performance: Receive
+        Rcv Data                                 8 MB (1110602 Flits)
+        Rcv Pkts                             66698
+        MC Rcv Pkts                              3
+    Errors: Signal Integrity
+        Link Qual Indicator                      5 (Excellent)
+        Uncorrectable Errors                     0
+        Link Downed                              1
+        Rcv Errors                               0
+        Exc. Buffer Overrun                      0
+        FM Config Errors                         0
+        Local Link Integ Err                     0
+        Link Error Recovery                      0
+        Rcv Rmt Phys Err                         0
+    Errors: Security
+        Xmit Constraint                          0
+        Rcv Constraint                           0
+    Errors: Routing and Other Errors
+        Rcv Sw Relay Err                         0
+        Xmit Discards                            0
+    Performance: Congestion
+        Congestion Discards                      0
+        Rcv FECN                                 0
+        Rcv BECN                                 0
+        Mark FECN                                0
+        Xmit Time Congestion                     0
+        Xmit Wait                                0
+    Performance: Bubbles
+        Xmit Wasted BW                           0
+        Xmit Wait Data                           0
+        Rcv Bubble                               0

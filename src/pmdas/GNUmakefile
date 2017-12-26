@@ -32,7 +32,7 @@ PLPMDAS = bonding netfilter zimbra postgresql \
 	named news pdns samba dtsrun postfix gpsd \
 	rsyslog elasticsearch snmp nginx nfsclient \
 	ds389 ds389log activemq lustre gpfs slurm \
-	bind2 redis nutcracker
+	bind2 redis nutcracker omnipath
 
 PYPMDAS = gluster zswap unbound mic haproxy json libvirt lio prometheus
 

@@ -1265,6 +1265,21 @@ This package contains the PCP Performance Metrics Domain Agent (PMDA) for
 collecting metrics for NFS Clients.
 #end pcp-pmda-nfsclient
 
+#
+# pcp-pmda-omnipath
+#
+%package pmda-omnipath
+License: GPLv2+
+Group: Applications/System
+Summary: Performance Co-Pilot (PCP) metrics for Omni-Path interconnect
+URL: http://www.pcp.io
+Requires: perl-PCP-PMDA = @package_version@
+
+%description pmda-omnipath
+This package contains the PCP Performance Metrics Domain Agent (PMDA) for
+collecting metrics about the Omni-Path interconnect
+#end pcp-pmda-omnipath
+
 %if "@pmda_oracle@" == "true"
 #
 # pcp-pmda-oracle
@@ -1919,7 +1934,7 @@ URL: http://www.pcp.io
 Requires: pcp-pmda-bonding pcp-pmda-dbping pcp-pmda-ds389 pcp-pmda-ds389log
 Requires: pcp-pmda-gpfs pcp-pmda-gpsd pcp-pmda-kvm pcp-pmda-lustre
 Requires: pcp-pmda-memcache pcp-pmda-named pcp-pmda-netfilter pcp-pmda-news
-Requires: pcp-pmda-nfsclient pcp-pmda-pdns
+Requires: pcp-pmda-nfsclient pcp-pmda-omnipath pcp-pmda-pdns
 Requires: pcp-pmda-samba pcp-pmda-slurm pcp-pmda-vmware pcp-pmda-zimbra
 Requires: pcp-pmda-apache pcp-pmda-bash pcp-pmda-cisco pcp-pmda-dm pcp-pmda-gfs2
 Requires: pcp-pmda-lmsensors pcp-pmda-logger pcp-pmda-mailq pcp-pmda-mounts
@@ -2221,6 +2236,7 @@ awk '{print $NF}' $DIST_MANIFEST | egrep -e 'pmdas/nfsclient' > pmda_nfsclient_f
 %if "@pmda_nginx@" == "true"
 awk '{print $NF}' $DIST_MANIFEST | egrep -e 'pmdas/nginx' > pmda_nginx_files
 %endif
+awk '{print $NF}' $DIST_MANIFEST | egrep -e 'pmdas/omnipath' > pmda_omnipath_files
 awk '{print $NF}' $DIST_MANIFEST | egrep -e 'pmdas/pdns' > pmda_pdns_files
 %if "@pmda_postfix@" == "true"
 awk '{print $NF}' $DIST_MANIFEST | egrep -e 'pmdas/postfix' > pmda_postfix_files
@@ -2290,7 +2306,7 @@ touch gui_files webapi_files manager_files pmda_infiniband_files pmda_papi_files
       pmda_gpsd_files pmda_kvm_files pmda_lustre_files pmda_lustrecomm_files \
       pmda_memcache_files pmda_named_files pmda_redis_files pmda_docker_files \
       pmda_netfilter_files pmda_news_files pmda_nfsclient_files \
-      pmda_pdns_files \
+      pmda_omnipath_files pmda_pdns_files \
       pmda_rsyslog_files pmda_samba_files pmda_slurm_files \
       pmda_vmware_files pmda_zimbra_files pmda_apache_files pmda_bash_files \
       pmda_cifs_files pmda_cisco_files pmda_gfs2_files \
@@ -2396,6 +2412,7 @@ BEGIN {
 %if "@pmda_nginx@" == "true"
     while( getline < "pmda_nginx_files") pmda_nginx[$0]=1;
 %endif
+    while( getline < "pmda_omnipath_files") pmda_omnipath[$0]=1;
     while( getline < "pmda_pdns_files") pmda_pdns[$0]=1;
 %if "@pmda_postfix@" == "true"
     while( getline < "pmda_postfix_files") pmda_postfix[$0]=1;
@@ -2527,6 +2544,7 @@ BEGIN {
 %if "@pmda_nginx@" == "true"
     else if (pmda_nginx[$NF]) f="pmda_nginx_files.rpm";
 %endif
+    else if (pmda_omnipath[$NF]) f="pmda_omnipath_files.rpm";
     else if (pmda_pdns[$NF]) f="pmda_pdns_files.rpm";
 %if "@pmda_postfix@" == "true"
     else if (pmda_postfix[$NF]) f="pmda_postfix_files.rpm";
@@ -2953,6 +2971,9 @@ pmieconf -c enable dmthin
 %preun pmda-nfsclient
 %{pmda_remove "$1" "nfsclient"}
 
+%preun pmda-omnipath
+%{pmda_remove "$1" "omnipath"}
+
 %preun pmda-pdns
 %{pmda_remove "$1" "pdns"}
 
@@ -3249,6 +3270,8 @@ cd
 %endif
 
 %files pmda-nfsclient -f pmda_nfsclient_files.rpm
+
+%files pmda-omnipath -f pmda_omnipath_files.rpm
 
 %files pmda-pdns -f pmda_pdns_files.rpm
 

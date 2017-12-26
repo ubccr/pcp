@@ -195,6 +195,7 @@ pmda.netfilter
 pmda.news
 pmda.nutcracker
 pmda.nvidia
+pmda.omnipath
 pmda.oracle
 pmda.papi
 pmda.perfevent
@@ -1414,6 +1415,7 @@ collectl
 1122 pmie local
 1123 pmchart local
 1125 archive multi-archive collectl decompress-xz local
+1126 dbpmda perl pmda.omnipath local
 1128 pmie local
 1129 derive local
 1130 pcp2elasticsearch python pcp2xxx local

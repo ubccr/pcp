@@ -4,33 +4,33 @@ dbpmda> open pipe /usr/bin/env perl pmdaomnipath.pl
 Start env PMDA: /usr/bin/env perl pmdaomnipath.pl
 dbpmda> getdesc on
 dbpmda> desc omnipath.port
-PMID: 145.0.1
-    Data Type: 64-bit unsigned int  InDom: 145.0 0x24400000
+PMID: 148.0.1
+    Data Type: 64-bit unsigned int  InDom: 148.0 0x25000000
     Semantics: instant  Units: none
 dbpmda> desc omnipath.xmit.bytes
-PMID: 145.0.2
-    Data Type: 64-bit unsigned int  InDom: 145.0 0x24400000
+PMID: 148.0.2
+    Data Type: 64-bit unsigned int  InDom: 148.0 0x25000000
     Semantics: counter  Units: byte
 dbpmda> desc omnipath.rcv.flits
-PMID: 145.0.7
-    Data Type: 64-bit unsigned int  InDom: 145.0 0x24400000
+PMID: 148.0.7
+    Data Type: 64-bit unsigned int  InDom: 148.0 0x25000000
     Semantics: counter  Units: count
 dbpmda> fetch omnipath.port
-PMID(s): 145.0.1
+PMID(s): 148.0.1
 pmResult ... numpmid: 1
-  145.0.1 (<noname>): numval: 1 valfmt: 1 vlist[]:
+  148.0.1 (<noname>): numval: 1 valfmt: 1 vlist[]:
     inst [0 or ???] value NUMBER
 dbpmda> fetch omnipath.xmit.bytes
-PMID(s): 145.0.2
+PMID(s): 148.0.2
 pmResult ... numpmid: 1
-  145.0.2 (<noname>): numval: 1 valfmt: 1 vlist[]:
+  148.0.2 (<noname>): numval: 1 valfmt: 1 vlist[]:
     inst [0 or ???] value NUMBER
 dbpmda> fetch omnipath.rcv.flits
-PMID(s): 145.0.7
+PMID(s): 148.0.7
 pmResult ... numpmid: 1
-  145.0.7 (<noname>): numval: 1 valfmt: 1 vlist[]:
+  148.0.7 (<noname>): numval: 1 valfmt: 1 vlist[]:
     inst [0 or ???] value NUMBER
-dbpmda> instance 145.0
-pmInDom: 145.0
+dbpmda> instance 148.0
+pmInDom: 148.0
 [  0] inst: 0 name: "1"
 dbpmda> 

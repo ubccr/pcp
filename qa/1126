@@ -30,7 +30,7 @@ _filter()
 }
 
 # real QA test starts here
-domain=145
+domain=148
 script=pmdaomnipath.pl
 cd "$PCP_PMDAS_DIR/omnipath"
 

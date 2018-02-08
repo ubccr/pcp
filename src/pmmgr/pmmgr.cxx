@@ -216,12 +216,6 @@ pmmgr_configurable::pmmgr_configurable(const string& dir):
 {
 }
 
-std::string
-get_config_directory()
-{
-  return config_directory;
-}
-
 vector<string>
 pmmgr_configurable::get_config_multi(const string& file) const
 {
@@ -283,6 +277,12 @@ pmmgr_configurable::timestamp(ostream& o) const
 
 static std::map<std::string,pmMetricSpec*> parsed_metric_cache;
 static lock_t parsed_metric_cache_lock;
+
+std::string
+pmmgr_job_spec::get_config_directory() const
+{
+  return config_directory;
+}
 
 pmMetricSpec*
 pmmgr_job_spec::parse_metric_spec (const string& spec) const
@@ -1665,7 +1665,7 @@ void setup_signals()
 bool dir_is_gone(std::string dir)
 {
   struct stat foo;
-  rc = stat (dir.c_str(), & foo);
+  int rc = stat (dir.c_str(), & foo);
   if (rc != 0)
     return true;
   else
@@ -1678,7 +1678,7 @@ bool dir_is_new(std::string item_name, vector<pmmgr_job_spec*> const &js)
   bool found=false;
   for (unsigned int i=0; i<js.size() && !found; i++)
     {
-      if (item_name == js[i].get_config_directory())
+      if (item_name == js[i]->get_config_directory())
         found=true;
     }
 
@@ -1694,6 +1694,7 @@ static pmLongOptions longopts[] =
     PMAPI_OPTIONS_HEADER("Options"),
     PMOPT_DEBUG,
     { "config", 1, 'c', "DIR", "add configuration directory [default $PCP_SYSCONF_DIR/pmmgr]" },
+    { "configdir", 1, 'd', "CONFIGDIR", "add directory to scan for configuration directories [similar to multiple -c options]" },
     { "poll", 1, 'p', "NUM", "set pmcd polling interval [default 60]" },
     { "username", 1, 'U', "USER", "decrease privilege from root to user [default pcp]" },
     { "log", 1, 'l', "PATH", "redirect diagnostics and trace output" },
@@ -1720,7 +1721,7 @@ int main (int argc, char *argv[])
   char* output_filename = NULL;
 
   opts.long_options = longopts;
-  opts.short_options = "D:c:vp:U:l:?";
+  opts.short_options = "D:c:d:vp:U:l:?";
 
   while ((c = pmgetopt_r(argc, argv, &opts)) != EOF)
     {
@@ -1786,7 +1787,7 @@ int main (int argc, char *argv[])
     {
       glob_t the_blob;
       string glob_pattern = jsdir[i] + (char)__pmPathSeparator() + "*";
-      rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
+      int rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
       if (rc == 0)
         {
           for (unsigned j=0; j<the_blob.gl_pathc; j++)
@@ -1849,13 +1850,13 @@ int main (int argc, char *argv[])
             {
               glob_t the_blob;
               string glob_pattern = jsdir[i] + (char)__pmPathSeparator() + "*";
-              rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
+              int rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
               if (rc == 0)
                 {
                   for (unsigned j=0; j<the_blob.gl_pathc; j++)
                     {
                       string item_name = the_blob.gl_pathv[j];
-                      if (dir_is_new(item_name, js)
+                      if (dir_is_new(item_name, js))
                         {
                           js.push_back (new pmmgr_job_spec(item_name));
                         }
@@ -1863,9 +1864,9 @@ int main (int argc, char *argv[])
                 }
             }
           // Remove missing dirs from js
-          for (vector<pmmgr_job_spec*>::iterator iter = js.begin(); iter != js.end(): )
+          for (vector<pmmgr_job_spec*>::iterator iter = js.begin(); iter != js.end(); )
             {
-              if (dir_is_gone(iter->get_config_directory())
+              if (dir_is_gone((*iter)->get_config_directory()))
                 {
                   delete *iter;
                   iter = js.erase(iter);

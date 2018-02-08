@@ -34,6 +34,8 @@ typedef std::string pmmgr_hostid; // a unique id for a pmcd
 // which reads one or more lines of djb-style directories. 
 class pmmgr_configurable
 {
+public:
+  std::string get_config_directory() const;
 protected:
   pmmgr_configurable(const std::string& dir);
   virtual ~pmmgr_configurable() {}

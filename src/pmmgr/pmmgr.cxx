@@ -216,6 +216,11 @@ pmmgr_configurable::pmmgr_configurable(const string& dir):
 {
 }
 
+std::string
+get_config_directory()
+{
+  return config_directory;
+}
 
 vector<string>
 pmmgr_configurable::get_config_multi(const string& file) const
@@ -1657,7 +1662,28 @@ void setup_signals()
   signal (SIGPIPE, SIG_IGN);
 }
 
+bool dir_is_gone(std::string dir)
+{
+  struct stat foo;
+  rc = stat (dir.c_str(), & foo);
+  if (rc != 0)
+    return true;
+  else
+    return false;
+}
 
+bool dir_is_new(std::string item_name, vector<pmmgr_job_spec*> const &js)
+{
+
+  bool found=false;
+  for (unsigned int i=0; i<js.size() && !found; i++)
+    {
+      if (item_name == js[i].get_config_directory())
+        found=true;
+    }
+
+  return !found;
+}
 
 // ------------------------------------------------------------------------
 
@@ -1685,6 +1711,7 @@ int main (int argc, char *argv[])
   string default_config_dir =
     string(pmGetConfig("PCP_SYSCONF_DIR")) + (char)__pmPathSeparator() + "pmmgr";
   vector<pmmgr_job_spec*> js;
+  vector<string> jsdir;
 
   int c;
   char* username_str;
@@ -1736,6 +1763,10 @@ int main (int argc, char *argv[])
 	  js.push_back (new pmmgr_job_spec(opts.optarg));
 	  break;
 
+	case 'd':
+	  jsdir.push_back (opts.optarg);
+	  break;
+
 	case 'U':
 	  username = opts.optarg;
 	  break;
@@ -1749,6 +1780,21 @@ int main (int argc, char *argv[])
     {
       pmUsageMessage(&opts);
       exit(1);
+    }
+
+  for (unsigned i=0; i<jsdir.size(); i++)
+    {
+      glob_t the_blob;
+      string glob_pattern = jsdir[i] + (char)__pmPathSeparator() + "*";
+      rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
+      if (rc == 0)
+        {
+          for (unsigned j=0; j<the_blob.gl_pathc; j++)
+            {
+              string item_name = the_blob.gl_pathv[j];
+              js.push_back (new pmmgr_job_spec(item_name));
+            }
+        }
     }
 
   // default
@@ -1796,6 +1842,41 @@ int main (int argc, char *argv[])
   timestamp(obatched(cout)) << "Log started" << endl;
   while (! quit)
     {
+      if (jsdir.size() > 0)
+        {
+          // Add new dirs to js
+          for (unsigned i=0; i<jsdir.size(); i++)
+            {
+              glob_t the_blob;
+              string glob_pattern = jsdir[i] + (char)__pmPathSeparator() + "*";
+              rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
+              if (rc == 0)
+                {
+                  for (unsigned j=0; j<the_blob.gl_pathc; j++)
+                    {
+                      string item_name = the_blob.gl_pathv[j];
+                      if (dir_is_new(item_name, js)
+                        {
+                          js.push_back (new pmmgr_job_spec(item_name));
+                        }
+                    }
+                }
+            }
+          // Remove missing dirs from js
+          for (vector<pmmgr_job_spec*>::iterator iter = js.begin(); iter != js.end(): )
+            {
+              if (dir_is_gone(iter->get_config_directory())
+                {
+                  delete *iter;
+                  iter = js.erase(iter);
+                }
+              else
+                {
+                  ++iter;
+                }
+            }
+        }
+
       // In this section, we must not fidget with SIGCHLD, due to use of system(3).
       for (unsigned i=0; i<js.size() && !quit; i++)
 	js[i]->poll();

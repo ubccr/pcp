@@ -140,6 +140,7 @@ private:
 public:
   pmmgr_hostid compute_hostid (const pcp_context_spec&) const;
   std::set<std::string> find_containers (const pcp_context_spec&) const;
+  std::string get_config_directory() const;
 };
 
 

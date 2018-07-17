@@ -3053,6 +3053,8 @@ proc_fetch(int numpmid, pmID pmidlist[], pmResult **resp, pmdaExt *pmda)
     int		i, sts, cluster;
     int		need_refresh[NUM_CLUSTERS] = { 0 };
 
+    __pmAFblock();
+
     for (i = 0; i < numpmid; i++) {
 	idp = (__pmID_int *)&(pmidlist[i]);
 	cluster = idp->cluster;
@@ -3070,6 +3072,9 @@ proc_fetch(int numpmid, pmID pmidlist[], pmResult **resp, pmdaExt *pmda)
     have_access = all_access || proc_ctx_revert(pmda->e_context);
     if (pmDebugOptions.auth)
 	fprintf(stderr, "proc_fetch: final access have=%d all=%d proc_ctx_revert=%d\n", have_access, all_access, proc_ctx_revert(pmda->e_context));
+
+    __pmAFunblock();
+
     return sts;
 }
 

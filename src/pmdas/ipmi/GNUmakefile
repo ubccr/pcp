@@ -15,7 +15,7 @@
 TOPDIR = ../../..
 include $(TOPDIR)/src/include/builddefs
 
-IAM	= impi
+IAM	= ipmi
 DOMAIN	= IPMI
 
 CMDTARGET = pmdaipmi$(EXECSUFFIX)

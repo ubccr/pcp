@@ -730,6 +730,8 @@ libmicrohttpd_CFLAGS
 PMDA_POSTFIX
 QSHAPE
 PMDA_RPM
+PMDA_IPMI
+IPMI_LIBS
 PMDA_PERFEVENT
 PFM_LIBS
 PMDA_PAPI
@@ -943,7 +945,6 @@ infodir
 docdir
 oldincludedir
 includedir
-runstatedir
 localstatedir
 sharedstatedir
 sysconfdir
@@ -984,6 +985,7 @@ with_books
 with_books_brand
 with_papi
 with_perfevent
+with_pmdaipmi
 with_pmdajson
 with_pmdanutcracker
 with_pmdasnmp
@@ -1085,7 +1087,6 @@ datadir='${datarootdir}'
 sysconfdir='${prefix}/etc'
 sharedstatedir='${prefix}/com'
 localstatedir='${prefix}/var'
-runstatedir='${localstatedir}/run'
 includedir='${prefix}/include'
 oldincludedir='/usr/include'
 docdir='${datarootdir}/doc/${PACKAGE}'
@@ -1338,15 +1339,6 @@ do
   | -silent | --silent | --silen | --sile | --sil)
     silent=yes ;;
 
-  -runstatedir | --runstatedir | --runstatedi | --runstated \
-  | --runstate | --runstat | --runsta | --runst | --runs \
-  | --run | --ru | --r)
-    ac_prev=runstatedir ;;
-  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
-  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
-  | --run=* | --ru=* | --r=*)
-    runstatedir=$ac_optarg ;;
-
   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
     ac_prev=sbindir ;;
   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
@@ -1484,7 +1476,7 @@ fi
 for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
 		datadir sysconfdir sharedstatedir localstatedir includedir \
 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
-		libdir localedir mandir runstatedir
+		libdir localedir mandir
 do
   eval ac_val=\$$ac_var
   # Remove trailing slashes.
@@ -1637,7 +1629,6 @@ Fine tuning of the installation directories:
   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
-  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
   --libdir=DIR            object code libraries [EPREFIX/lib]
   --includedir=DIR        C header files [PREFIX/include]
   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
@@ -1712,6 +1703,7 @@ Optional Packages:
                           The optional argument may be a full path of a PAPI
                           installation prefix, or a pkgconfig module name.
   --with-perfevent        enable perfevent pmda (default is on)
+  --with-pmdaipmi         enable ipmi pmda (default is on)
   --with-pmdajson         enable JSON pmda (default is on)
   --with-pmdanutcracker   enable nutcracker pmda (default is on)
   --with-pmdasnmp         enable SNMP pmda (default is on)
@@ -2950,6 +2942,15 @@ if test "${with_perfevent+set}" = set; then :
   withval=$with_perfevent; do_perfevent=$withval; PACKAGE_CONFIGURE="$PACKAGE_CONFIGURE --with-perfevent=$withval"
 else
   do_perfevent=check
+fi
+
+
+
+# Check whether --with-pmdaipmi was given.
+if test "${with_pmdaipmi+set}" = set; then :
+  withval=$with_pmdaipmi; do_pmdaipmi=$withval; PACKAGE_CONFIGURE="$PACKAGE_CONFIGURE --with-pmdaipmi=$withval"
+else
+  do_pmdaipmi=check
 fi
 
 
@@ -11124,6 +11125,94 @@ $as_echo_n "checking if the perfevent PMDA should be included... " >&6; }
 PMDA_PERFEVENT=$pmda_perfevent
 
 if $pmda_perfevent; then { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }; else { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }; fi
+
+pmda_ipmi=false
+if test "x$do_ipmi" = "xyes"; then :
+
+    pmda_ipmi=true
+    ipmi_libs="-lfreeipmi"
+    IPMI_LIBS=$ipmi_libs
+
+
+elif test "x$do_ipmi" != "xno" ; then :
+
+    enable_ipmi=true
+
+    savedLIBS=$LIBS
+    { $as_echo "$as_me:${as_lineno-$LINENO}: checking for ipmi_cmd_dcmi_get_power_reading in -lfreeipmi" >&5
+$as_echo_n "checking for ipmi_cmd_dcmi_get_power_reading in -lfreeipmi... " >&6; }
+if ${ac_cv_lib_freeipmi_ipmi_cmd_dcmi_get_power_reading+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lfreeipmi  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char ipmi_cmd_dcmi_get_power_reading ();
+int
+main ()
+{
+return ipmi_cmd_dcmi_get_power_reading ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_freeipmi_ipmi_cmd_dcmi_get_power_reading=yes
+else
+  ac_cv_lib_freeipmi_ipmi_cmd_dcmi_get_power_reading=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_freeipmi_ipmi_cmd_dcmi_get_power_reading" >&5
+$as_echo "$ac_cv_lib_freeipmi_ipmi_cmd_dcmi_get_power_reading" >&6; }
+if test "x$ac_cv_lib_freeipmi_ipmi_cmd_dcmi_get_power_reading" = xyes; then :
+  ipmi_libs="-lfreeipmi"
+else
+  enable_ipmi=false
+fi
+
+    for ac_header in freeipmi/freeipmi.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "freeipmi/freeipmi.h" "ac_cv_header_freeipmi_freeipmi_h" "$ac_includes_default"
+if test "x$ac_cv_header_freeipmi_freeipmi_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_FREEIPMI_FREEIPMI_H 1
+_ACEOF
+
+else
+  enable_ipmi=false
+fi
+
+done
+
+    if test "$do_ipmi" != "check" -a "$enable_ipmi" != "true"
+    then
+	as_fn_error $? "libfreeipmi is not installed, cannot enable the ipmi PMDA" "$LINENO" 5
+    else
+	pmda_ipmi=$enable_ipmi
+    fi
+    LIBS=$savedLIBS
+    IPMI_LIBS=$ipmi_libs
+
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking if the ipmi PMDA should be included" >&5
+$as_echo_n "checking if the ipmi PMDA should be included... " >&6; }
+PMDA_IPMI=$pmda_ipmi
+
+if $pmda_ipmi; then { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }; else { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
 $as_echo "no" >&6; }; fi
 

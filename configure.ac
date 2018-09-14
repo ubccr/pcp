@@ -142,6 +142,12 @@ AC_ARG_WITH([perfevent],
     [do_perfevent=$withval; PACKAGE_CONFIGURE="$PACKAGE_CONFIGURE --with-perfevent=$withval"],
     [do_perfevent=check])
 
+AC_ARG_WITH([pmdaipmi],
+    [AC_HELP_STRING([--with-pmdaipmi],
+		   [enable ipmi pmda (default is on)])],
+    [do_pmdaipmi=$withval; PACKAGE_CONFIGURE="$PACKAGE_CONFIGURE --with-pmdaipmi=$withval"],
+    [do_pmdaipmi=check])
+
 AC_ARG_WITH([pmdajson],
     [AC_HELP_STRING([--with-pmdajson],
 		   [enable JSON pmda (default is on)])],
@@ -1793,6 +1799,32 @@ AS_IF([test "x$do_perfevent" = "xyes"], [
 AC_MSG_CHECKING([if the perfevent PMDA should be included])
 AC_SUBST(PMDA_PERFEVENT, $pmda_perfevent)
 if $pmda_perfevent; then AC_MSG_RESULT(yes); else AC_MSG_RESULT(no); fi
+
+pmda_ipmi=false
+AS_IF([test "x$do_ipmi" = "xyes"], [
+    pmda_ipmi=true
+    ipmi_libs="-lfreeipmi"
+    AC_SUBST(IPMI_LIBS, $ipmi_libs)
+], [test "x$do_ipmi" != "xno" ], [
+    enable_ipmi=true
+
+    savedLIBS=$LIBS
+    AC_CHECK_LIB([freeipmi], [ipmi_cmd_dcmi_get_power_reading],
+		 [ipmi_libs="-lfreeipmi"],
+		 [enable_ipmi=false])
+    AC_CHECK_HEADERS([freeipmi/freeipmi.h], [], [enable_ipmi=false])
+    if test "$do_ipmi" != "check" -a "$enable_ipmi" != "true"
+    then
+	AC_MSG_ERROR([libfreeipmi is not installed, cannot enable the ipmi PMDA])
+    else
+	pmda_ipmi=$enable_ipmi
+    fi
+    LIBS=$savedLIBS
+    AC_SUBST(IPMI_LIBS, $ipmi_libs)
+])
+AC_MSG_CHECKING([if the ipmi PMDA should be included])
+AC_SUBST(PMDA_IPMI, $pmda_ipmi)
+if $pmda_ipmi; then AC_MSG_RESULT(yes); else AC_MSG_RESULT(no); fi
 
 dnl Do you have RPM Package Manager libraries for pmdarpm?
 pmda_rpm=false

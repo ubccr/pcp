@@ -50,6 +50,7 @@ static int
 refresh(dcmi_info_t *dcmi_info)
 {
     uint64_t val;
+    int j;
 
     for (j = 0; j < IPMI_METRIC_COUNT; j++)
       dcmi_info->failed[j] = 0;
@@ -66,7 +67,7 @@ refresh(dcmi_info_t *dcmi_info)
         dcmi_info->failed[IPMI_DCMI_POWER]=1;
     }
 
-    dcmi_info.power = val;
+    dcmi_info->power = val;
 
 }
 
@@ -94,7 +95,7 @@ ipmi_fetchCallBack(pmdaMetric *mdesc, unsigned int inst, pmAtomValue *atom)
 
     switch (idp->item) {
         case IPMI_DCMI_POWER:
-            if (dcmi_info->failed[IPMI_DCMI_POWER] == 1)
+            if (dcmi_info.failed[IPMI_DCMI_POWER] == 1)
                 return PM_ERR_VALUE; 
             atom->ul = dcmi_info.power;
             break;
@@ -120,8 +121,6 @@ void
 __PMDA_INIT_CALL
 ipmi_init(pmdaInterface *dp)
 {
-    int sts;
-
     if (isDSO) {
     	initializeHelpPath();
     	pmdaDSO(dp, PMDA_INTERFACE_2, "ipmi DSO", mypath);
@@ -154,7 +153,7 @@ ipmi_init(pmdaInterface *dp)
     dp->version.any.fetch = ipmi_fetch;
     pmdaSetFetchCallBack(dp, ipmi_fetchCallBack);
 
-    pmdaInit(dp, indomtab, sizeof(indomtab)/sizeof(indomtab[0]), 
+    pmdaInit(dp, NULL, 0, 
 	     metrictab, sizeof(metrictab)/sizeof(metrictab[0]));
 }
 
@@ -181,7 +180,7 @@ main(int argc, char **argv)
     __pmSetProgname(argv[0]);
 
     initializeHelpPath();
-    pmdaDaemon(&desc, PMDA_INTERFACE_2, pmProgname, NVML,
+    pmdaDaemon(&desc, PMDA_INTERFACE_2, pmProgname, IPMI,
 		"ipmi.log", mypath);
 
     pmdaGetOptions(argc, argv, &opts, &desc);

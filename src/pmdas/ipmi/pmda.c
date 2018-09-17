@@ -140,18 +140,16 @@ ipmi_init(pmdaInterface *dp)
 	return;
 
     if (!(ipmi_ctx = ipmi_ctx_create ())) {
-        __pmNotifyErr(LOG_ERR, "ipmi_ctx_create failed");
+        __pmNotifyErr(LOG_ERR, "ipmi_ctx_create failed\n");
         dcim_error=1;
     }
 
     if (ipmi_ctx_find_inband (ipmi_ctx, NULL, 0, 0, 0, NULL, 0, 0  ) < 0) {
-      fprintf (stderr, "ipmi_ctx_find_inband failed\n");
       __pmNotifyErr(LOG_ERR, "ipmi_ctx_find_inband failed");
       dcim_error=1;
     }
 
     if (!(obj_cmd_rs = fiid_obj_create (tmpl_cmd_dcmi_get_power_reading_rs))) {
-        fprintf (stderr, "fiid_obj_create: %s\n", strerror (errno));
         __pmNotifyErr(LOG_ERR, "fiid_obj_create: %s\n", strerror (errno));
         dcim_error=1;
     }
@@ -200,6 +198,7 @@ main(int argc, char **argv)
 	pmdaUsageMessage(&opts);
 	exit(1);
     }
+
 
     pmdaOpenLog(&desc);
     pmdaConnect(&desc);

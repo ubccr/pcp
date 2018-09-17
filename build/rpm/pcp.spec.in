@@ -69,7 +69,7 @@ BuildRequires: papi-devel
 BuildRequires: libpfm-devel >= 4
 %endif
 %if "@pmda_ipmi@" == "true"
-BuildRequires: libfreeipmi-devel
+BuildRequires: freeipmi-devel
 %endif
 %if "@pmda_systemd@" == "true"
 BuildRequires: systemd-devel
@@ -911,8 +911,8 @@ License: GPLv2+
 Group: Applications/System
 Summary: Performance Co-Pilot (PCP) metrics for ipmi devices
 URL: http://www.pcp.io
-Requires: libfreeipmi
-BuildRequires: libfreeipmi-devel
+Requires: freeipmi
+BuildRequires: freeipmi-devel
 
 %description pmda-ipmi
 This package contains the PCP Performance Metrics Domain Agent (PMDA) for

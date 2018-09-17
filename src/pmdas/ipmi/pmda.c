@@ -11,7 +11,6 @@
  * or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
  * for more details.
  */
-#include "pmapi.h"
 #include "impl.h"
 #include "pmda.h"
 #include "domain.h"

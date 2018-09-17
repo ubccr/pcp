@@ -41,7 +41,7 @@ typedef struct {
 static dcmi_info_t	dcmi_info;
 static char		mypath[MAXPATHLEN];
 static int		isDSO = 1;
-
+static int              dcim_error = 0;
 /* Global IPMI state variables */
 ipmi_ctx_t ipmi_ctx = NULL;
 fiid_obj_t obj_cmd_rs = NULL;
@@ -52,23 +52,32 @@ refresh(dcmi_info_t *dcmi_info)
     uint64_t val;
     int j;
 
-    for (j = 0; j < IPMI_METRIC_COUNT; j++)
-      dcmi_info->failed[j] = 0;
+    if(dcim_error){
+      for (j = 0; j < IPMI_METRIC_COUNT; j++){
+        dcmi_info->failed[j] = 1;
+        return 1;
+      }
+    }
+    else {
+      for (j = 0; j < IPMI_METRIC_COUNT; j++)
+        dcmi_info->failed[j] = 0;
+    }
 
     if (ipmi_cmd_dcmi_get_power_reading( ipmi_ctx, IPMI_DCMI_POWER_READING_MODE_SYSTEM_POWER_STATISTICS, 0, obj_cmd_rs) < 0){
-        printf("ipmi_cmd_dcmi_get_power_reading failed: %s\n", ipmi_ctx_errormsg (ipmi_ctx));
+        fprintf(stderr, "ipmi_cmd_dcmi_get_power_reading failed: %s\n", ipmi_ctx_errormsg (ipmi_ctx));
         /* This should not fail since we checked it at init, if it does???? */
         dcmi_info->failed[IPMI_DCMI_POWER]=1;
     }
 
     if (FIID_OBJ_GET (obj_cmd_rs, "current_power", &val) < 0) {
-        printf("current_power fail: %s\n", ipmi_ctx_errormsg (ipmi_ctx));
+        fprintf(stderr, "current_power fail: %s\n", ipmi_ctx_errormsg (ipmi_ctx));
         /* Should not fail */
         dcmi_info->failed[IPMI_DCMI_POWER]=1;
     }
 
     dcmi_info->power = val;
 
+    return 0;
 }
 
 /*
@@ -90,7 +99,7 @@ ipmi_fetchCallBack(pmdaMetric *mdesc, unsigned int inst, pmAtomValue *atom)
 
     if (idp->cluster != 0)
 	return PM_ERR_PMID;
-    if (inst > 0)
+    if (inst != PM_INDOM_NULL)
         return PM_ERR_INST;
 
     switch (idp->item) {
@@ -121,6 +130,7 @@ void
 __PMDA_INIT_CALL
 ipmi_init(pmdaInterface *dp)
 {
+
     if (isDSO) {
     	initializeHelpPath();
     	pmdaDSO(dp, PMDA_INTERFACE_2, "ipmi DSO", mypath);
@@ -130,24 +140,26 @@ ipmi_init(pmdaInterface *dp)
 	return;
 
     if (!(ipmi_ctx = ipmi_ctx_create ())) {
-        printf("ipmi_ctx_create failed");
-        exit(1);
+        __pmNotifyErr(LOG_ERR, "ipmi_ctx_create failed");
+        dcim_error=1;
     }
 
     if (ipmi_ctx_find_inband (ipmi_ctx, NULL, 0, 0, 0, NULL, 0, 0  ) < 0) {
-      printf ("ipmi_ctx_find_inband failed\n");
-      exit(1);
+      fprintf (stderr, "ipmi_ctx_find_inband failed\n");
+      __pmNotifyErr(LOG_ERR, "ipmi_ctx_find_inband failed");
+      dcim_error=1;
     }
 
     if (!(obj_cmd_rs = fiid_obj_create (tmpl_cmd_dcmi_get_power_reading_rs))) {
-        printf ("fiid_obj_create: %s\n", strerror (errno));
-        exit(1);
+        fprintf (stderr, "fiid_obj_create: %s\n", strerror (errno));
+        __pmNotifyErr(LOG_ERR, "fiid_obj_create: %s\n", strerror (errno));
+        dcim_error=1;
     }
 
     /* Sanity check, confirm we can actually get a reading.  Some older BMCs fail */
     if (ipmi_cmd_dcmi_get_power_reading( ipmi_ctx, IPMI_DCMI_POWER_READING_MODE_SYSTEM_POWER_STATISTICS, 0, obj_cmd_rs) < 0){
-        printf("ipmi_cmd_dcmi_get_power_reading failed: %s\n", ipmi_ctx_errormsg (ipmi_ctx));
-        exit(1);
+        __pmNotifyErr(LOG_ERR, "ipmi_cmd_dcmi_get_power_reading failed: %s\n", ipmi_ctx_errormsg (ipmi_ctx));
+        dcim_error=1;
     }
 
     dp->version.any.fetch = ipmi_fetch;

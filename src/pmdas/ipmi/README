@@ -1,0 +1,6 @@
+Readme
+IMPI PMDA
+===========
+
+The IPMI PMDA is a PCP module for gathering metrics from the ipmi interface.
+It requires the freeipmi library to be installed.

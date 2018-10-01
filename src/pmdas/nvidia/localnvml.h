@@ -85,5 +85,6 @@ extern int localNvmlDeviceGetTemperature(nvmlDevice_t, nvmlTemperatureSensors_t,
 extern int localNvmlDeviceGetUtilizationRates(nvmlDevice_t, nvmlUtilization_t *);
 extern int localNvmlDeviceGetMemoryInfo(nvmlDevice_t, nvmlMemory_t *);
 extern int localNvmlDeviceGetPerformanceState(nvmlDevice_t, nvmlPstates_t *);
+extern int localNvmlDeviceGetPowerUsage (nvmlDevice_t, unsigned int*)
 
 #endif /* _LOCAL_NVML_H */

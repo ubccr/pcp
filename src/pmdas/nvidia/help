@@ -70,3 +70,7 @@ The total amount of GPU FB memory available on the card, in bytes.
 
 @ nvidia.memfree Unallocated FB memory
 Amount of GPU FB memory that is not currently allocated, in bytes.
+
+@ nvidia.powerused Power used
+Retrieves power usage for this GPU in milliwatts and its
+associated circuitry (e.g. memory)

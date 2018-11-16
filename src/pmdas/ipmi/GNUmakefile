@@ -29,15 +29,22 @@ LCFLAGS += -DDSOSUFFIX=\"$(DSOSUFFIX)\"
 PMDADIR = $(PCP_PMDAS_DIR)/$(IAM)
 LDIRT	= domain.h *.log *.dir *.pag so_locations
 
-default:	$(LIBTARGET) $(CMDTARGET)
+default_pcp default:    build-me
 
 include $(BUILDRULES)
 
-install:	default
+ifeq "$(PMDA_IPMI)" "true"
+build-me: $(LIBTARGET) $(CMDTARGET)
+
+install_pcp install: default
 	$(INSTALL) -m 755 -d $(PMDADIR)
 	$(INSTALL) -m 755 Install Remove $(PMDADIR)
 	$(INSTALL) -m 755 $(LIBTARGET) $(CMDTARGET) $(PMDADIR)
 	$(INSTALL) -m 644 $(DFILES) root help pmns domain.h $(PMDADIR)
+else
+build-me:
+install_pcp install:
+endif
 
 $(OBJECTS): domain.h
 

@@ -1801,11 +1801,11 @@ AC_SUBST(PMDA_PERFEVENT, $pmda_perfevent)
 if $pmda_perfevent; then AC_MSG_RESULT(yes); else AC_MSG_RESULT(no); fi
 
 pmda_ipmi=false
-AS_IF([test "x$do_ipmi" = "xyes"], [
+AS_IF([test "x$do_pmdaipmi" = "xyes"], [
     pmda_ipmi=true
     ipmi_libs="-lfreeipmi"
     AC_SUBST(IPMI_LIBS, $ipmi_libs)
-], [test "x$do_ipmi" != "xno" ], [
+], [test "x$do_pmdaipmi" != "xno" ], [
     enable_ipmi=true
 
     savedLIBS=$LIBS
@@ -1813,7 +1813,7 @@ AS_IF([test "x$do_ipmi" = "xyes"], [
 		 [ipmi_libs="-lfreeipmi"],
 		 [enable_ipmi=false])
     AC_CHECK_HEADERS([freeipmi/freeipmi.h], [], [enable_ipmi=false])
-    if test "$do_ipmi" != "check" -a "$enable_ipmi" != "true"
+    if test "$do_pmdaipmi" != "check" -a "$enable_ipmi" != "true"
     then
 	AC_MSG_ERROR([libfreeipmi is not installed, cannot enable the ipmi PMDA])
     else

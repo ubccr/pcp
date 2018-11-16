@@ -11129,14 +11129,14 @@ $as_echo "yes" >&6; }; else { $as_echo "$as_me:${as_lineno-$LINENO}: result: no"
 $as_echo "no" >&6; }; fi
 
 pmda_ipmi=false
-if test "x$do_ipmi" = "xyes"; then :
+if test "x$do_pmdaipmi" = "xyes"; then :
 
     pmda_ipmi=true
     ipmi_libs="-lfreeipmi"
     IPMI_LIBS=$ipmi_libs
 
 
-elif test "x$do_ipmi" != "xno" ; then :
+elif test "x$do_pmdaipmi" != "xno" ; then :
 
     enable_ipmi=true
 
@@ -11197,7 +11197,7 @@ fi
 
 done
 
-    if test "$do_ipmi" != "check" -a "$enable_ipmi" != "true"
+    if test "$do_pmdaipmi" != "check" -a "$enable_ipmi" != "true"
     then
 	as_fn_error $? "libfreeipmi is not installed, cannot enable the ipmi PMDA" "$LINENO" 5
     else

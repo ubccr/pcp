@@ -76,6 +76,9 @@ BuildRequires: papi-devel
 %if "@pmda_perfevent@" == "true"
 BuildRequires: libpfm-devel >= 4
 %endif
+%if "@pmda_ipmi@" == "true"
+BuildRequires: freeipmi-devel
+%endif
 %if "@pmda_systemd@" == "true"
 BuildRequires: systemd-devel
 %endif
@@ -918,6 +921,24 @@ BuildRequires: libpfm-devel >= 4.4
 This package contains the PCP Performance Metrics Domain Agent (PMDA) for
 collecting hardware counters statistics through libpfm.
 #end pcp-pmda-perfevent
+%endif
+
+%if "@pmda_ipmi@" == "true"
+#
+# pcp-pmda-ipmi
+#
+%package pmda-ipmi
+License: GPLv2+
+Group: Applications/System
+Summary: Performance Co-Pilot (PCP) metrics for ipmi devices
+URL: http://www.pcp.io
+Requires: freeipmi
+BuildRequires: freeipmi-devel
+
+%description pmda-ipmi
+This package contains the PCP Performance Metrics Domain Agent (PMDA) for
+collecting ipmi metrics through freeipmi
+#end pcp-pmda-ipmi
 %endif
 
 %if "@pmda_activemq@" == "true"
@@ -2249,6 +2270,9 @@ awk '{print $NF}' $DIST_MANIFEST | egrep 'pmdas/papi' >pmda_papi_files
 %if "@pmda_perfevent@" == "true"
 awk '{print $NF}' $DIST_MANIFEST | egrep 'perfevent|perfalloc.1' > pmda_perfevent_files
 %endif
+%if "@pmda_ipmi@" == "true"
+awk '{print $NF}' $DIST_MANIFEST | egrep -e 'pmdas/ipmi' > pmda_ipmi_files
+%endif
 %if "@pmda_systemd@" == "true"
 awk '{print $NF}' $DIST_MANIFEST | egrep 'pmdas/systemd' > pmda_systemd_files
 %endif
@@ -2356,7 +2380,7 @@ awk '{print $NF}' $DIST_MANIFEST | egrep -e 'pmdas/weblog' > pmda_weblog_files
 awk '{print $NF}' $DIST_MANIFEST | egrep -e 'zeroconf|daily[-_]report|/sa$' > zeroconf_files
 
 touch gui_files webapi_files manager_files pmda_infiniband_files pmda_papi_files \
-      pmda_perfevent_files pmda_bonding_files pmda_dbping_files \
+      pmda_perfevent_files pmda_ipmi_files pmda_bonding_files pmda_dbping_files \
       pmda_ds389_files pmda_ds389log_files pmda_gpfs_files \
       pmda_gpsd_files pmda_kvm_files pmda_lustre_files pmda_lustrecomm_files \
       pmda_memcache_files pmda_named_files pmda_redis_files pmda_docker_files \
@@ -2436,6 +2460,7 @@ BEGIN {
     while( getline < "pmda_infiniband_files") pmda_infiniband[$0]=1;
     while( getline < "pmda_papi_files") pmda_papi[$0]=1;
     while( getline < "pmda_perfevent_files") pmda_perfevent[$0]=1;
+    while( getline < "pmda_ipmi_files") pmda_ipmi[$0]=1;
 %if "@pmda_activemq@" == "true"
     while( getline < "pmda_activemq_files") pmda_activemq[$0]=1;
 %endif
@@ -2571,6 +2596,7 @@ BEGIN {
     else if (pmda_infiniband[$NF]) f="pmda_infiniband_files.rpm";
     else if (pmda_papi[$NF]) f="pmda_papi_files.rpm";
     else if (pmda_perfevent[$NF]) f="pmda_perfevent_files.rpm";
+    else if (pmda_ipmi[$NF]) f="pmda_ipmi_files.rpm";
 %if "@pmda_activemq@" == "true"
     else if (pmda_activemq[$NF]) f="pmda_activemq_files.rpm";
 %endif
@@ -2915,6 +2941,11 @@ pmieconf -c enable dmthin
 %preun pmda-perfevent
 %{pmda_remove "$1" "perfevent"}
 %endif #preun pmda-perfevent
+
+%if "@pmda_ipmi@" == "true"
+%preun pmda-ipmi
+%{pmda_remove "$1" "ipmi"}
+%endif #preun pmda-ipmi
 
 %if "@pmda_json@" == "true"
 %preun pmda-json
@@ -3290,6 +3321,10 @@ cd
 
 %if "@pmda_perfevent@" == "true"
 %files pmda-perfevent -f pmda_perfevent_files.rpm
+%endif
+
+%if "@pmda_ipmi@" == "true"
+%files pmda-ipmi -f pmda_ipmi_files.rpm
 %endif
 
 %if "@pmda_activemq@" == "true"

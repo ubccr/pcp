@@ -36,6 +36,7 @@ enum {
     NVIDIA_MEMUSED,
     NVIDIA_MEMTOTAL,
     NVIDIA_MEMFREE,
+    NVIDIA_POWERUSED,
 
     NVIDIA_METRIC_COUNT
 };
@@ -66,6 +67,8 @@ static pmdaMetric metrictab[] = {
 	PM_SEM_DISCRETE, PMDA_PMUNITS(1, 0, 0, PM_SPACE_BYTE, 0, 0) } },
     { NULL, { PMDA_PMID(0, NVIDIA_MEMFREE), PM_TYPE_U64, GCARD_INDOM,
 	PM_SEM_INSTANT, PMDA_PMUNITS(1, 0, 0, PM_SPACE_BYTE, 0, 0) } },
+    { NULL, { PMDA_PMID(0, NVIDIA_POWERUSED), PM_TYPE_U64, GCARD_INDOM,
+	PM_SEM_INSTANT, PMDA_PMUNITS(0, 0, 0, 0, 0, 0) } },
 };
 
 /* GCARD_INDOM struct, stats that are per card */
@@ -77,6 +80,7 @@ typedef struct {
     int			temp;
     int			fanspeed;
     int			perfstate;
+    int			powerused;
     nvmlUtilization_t	active;
     nvmlMemory_t	memory;
 } nvinfo_t;
@@ -160,6 +164,7 @@ refresh(pcp_nvinfo_t *pcp_nvinfo)
     nvmlUtilization_t	utilization;
     nvmlMemory_t	memory;
     nvmlPstates_t	pstate;
+    unsigned int        powerused;
     int			i, sts;
 
     if (!nvmlDSO_loaded) {
@@ -207,6 +212,8 @@ refresh(pcp_nvinfo_t *pcp_nvinfo)
 	}
 	if ((sts = localNvmlDeviceGetPerformanceState(device, &pstate)))
 	    pcp_nvinfo->nvinfo[i].failed[NVIDIA_PERFSTATE] = 1;
+	if ((sts = localNvmlDeviceGetPowerUsage(device, &powerused)))
+	    pcp_nvinfo->nvinfo[i].failed[NVIDIA_POWERUSED] = 1;
 
 	if (pcp_nvinfo->nvinfo[i].name == NULL)
 	    pcp_nvinfo->nvinfo[i].name = strdup(name);
@@ -215,6 +222,7 @@ refresh(pcp_nvinfo_t *pcp_nvinfo)
 	pcp_nvinfo->nvinfo[i].temp = temperature;
 	pcp_nvinfo->nvinfo[i].fanspeed = fanspeed;
 	pcp_nvinfo->nvinfo[i].perfstate = pstate;
+	pcp_nvinfo->nvinfo[i].powerused = powerused;
 	pcp_nvinfo->nvinfo[i].active = utilization;	/* struct copy */
 	pcp_nvinfo->nvinfo[i].memory = memory;		/* struct copy */
     }
@@ -298,6 +306,10 @@ nvidia_fetchCallBack(pmdaMetric *mdesc, unsigned int inst, pmAtomValue *atom)
 	    if (pcp_nvinfo.nvinfo[inst].failed[NVIDIA_MEMFREE])
 		return PM_ERR_VALUE;
             atom->ull = pcp_nvinfo.nvinfo[inst].memory.free;
+        case NVIDIA_POWERUSED:
+	    if (pcp_nvinfo.nvinfo[inst].failed[NVIDIA_POWERUSED])
+		return PM_ERR_VALUE;
+            atom->ull = pcp_nvinfo.nvinfo[inst].powerused;
             break;
         default:
             return PM_ERR_PMID;

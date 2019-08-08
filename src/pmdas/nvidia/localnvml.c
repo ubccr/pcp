@@ -38,6 +38,7 @@ struct {
     { .symbol = "nvmlDeviceGetUtilizationRates" },
     { .symbol = "nvmlDeviceGetMemoryInfo" },
     { .symbol = "nvmlDeviceGetPerformanceState" },
+    { .symbol = "nvmlDeviceGetPowerUsage" },
 };
 enum {
     NVML_INIT,
@@ -51,6 +52,7 @@ enum {
     NVML_DEVICE_GET_UTILIZATIONRATES,
     NVML_DEVICE_GET_MEMORYINFO,
     NVML_DEVICE_GET_PERFORMANCESTATE,
+    NVML_DEVICE_GET_POWERUSAGE,
     NVML_SYMBOL_COUNT
 };
 typedef int (*local_init_t)(void);
@@ -64,6 +66,7 @@ typedef int (*local_dev_get_temperature_t)(nvmlDevice_t, nvmlTemperatureSensors_
 typedef int (*local_dev_get_utilizationrates_t)(nvmlDevice_t, nvmlUtilization_t *);
 typedef int (*local_dev_get_memoryinfo_t)(nvmlDevice_t, nvmlMemory_t *);
 typedef int (*local_dev_get_performancestate_t)(nvmlDevice_t, nvmlPstates_t *);
+typedef int (*local_dev_get_powerusage_t)(nvmlDevice_t, unsigned int *);
 
 static int
 resolve_symbols(void)
@@ -214,6 +217,18 @@ localNvmlDeviceGetPerformanceState(nvmlDevice_t device, nvmlPstates_t *state)
 	return NVML_ERROR_FUNCTION_NOT_FOUND;
     dev_get_performancestate = (local_dev_get_performancestate_t)func;
     return dev_get_performancestate(device, state);
+}
+
+int
+localNvmlDeviceGetPowerUsage ( nvmlDevice_t device, unsigned int* power )
+{
+    local_dev_get_powerusage_t dev_get_powerusage;
+    void *func = nvml_symtab[NVML_DEVICE_GET_POWERUSAGE].handle;
+
+    if (!func)
+	return NVML_ERROR_FUNCTION_NOT_FOUND;
+    dev_get_powerusage = (local_dev_get_powerusage_t)func;
+    return dev_get_powerusage(device, power);
 }
 
 const char *

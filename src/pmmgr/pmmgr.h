@@ -151,6 +151,7 @@ private:
 public:
   std::set<pmmgr_hostid> compute_hostids (const pcp_context_spec&) const;
   std::set<std::string> find_containers (const pcp_context_spec&) const;
+  std::string get_config_directory() const;
 };
 
 

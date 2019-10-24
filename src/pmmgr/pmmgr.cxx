@@ -2037,7 +2037,7 @@ int main (int argc, char *argv[])
   for (unsigned i=0; i<jsdir.size(); i++)
     {
       glob_t the_blob;
-      string glob_pattern = jsdir[i] + (char)__pmPathSeparator() + "*";
+      string glob_pattern = jsdir[i] + (char)pmPathSeparator() + "*";
       int rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
       if (rc == 0)
         {
@@ -2100,7 +2100,7 @@ int main (int argc, char *argv[])
           for (unsigned i=0; i<jsdir.size(); i++)
             {
               glob_t the_blob;
-              string glob_pattern = jsdir[i] + (char)__pmPathSeparator() + "*";
+              string glob_pattern = jsdir[i] + (char)pmPathSeparator() + "*";
               int rc = glob (glob_pattern.c_str(), GLOB_ONLYDIR , NULL, & the_blob);
               if (rc == 0)
                 {
